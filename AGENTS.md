@@ -1,20 +1,57 @@
-# Project instructions
+# LaTeX sources for transport sensitivity analysis paper draft
 
-*Write project specific instructions here*
+## Project overview
+
+- The source in directory `report_files` is a technical report being rewritten into a paper draft centred
+  on transport sensitivity analysis. Source files in the subdir:
+  - `bentonite.tex`
+  - `param_review.tex`
+  - `model_comparison.tex`
+  - `plasticity.tex`
+  - `05_chapter_excavation.tex`
+  - `06_pore_pressure_experiment.tex`
+  - `06_fractures.tex`
+  - `06_TSX_heterogeneity.tex`
+  - `transport.tex`
+
+- `main.tex` is the authoritative entry point, preamble, macro registry,
+  glossary source, and chapter assembly file.
+- Current `main.tex` inputs and bibliography:
+  - `article_intro.tex`: paper introduction and motivation
+  - `article_context.tex`: near-field model context and setup
+  - `transport.tex`: transport model, sensitivity methodology, and results
+  - `article_support_appendix.tex`: supporting appendix material
+  - `report.bib`: active BibLaTeX database loaded by `\addbibresource`
+  
+- The target manuscript should read as a coherent paper on near-field
+  transport sensitivity analysis rather than as a lightly edited report.
+- Preferred paper structure:
+  1. problem framing, research, and motivation
+  2. near-field model
+     - conceptual near-field transport model
+     - DFM approach
+     - DFN stoachastic model
+  3. - model parametrization
+     - site specific data
+     - Determination of the DFN parameters through Bayesian inversion 
+  4. sensitivity-analysis methodology, implementation of Sobol indices, groups
+  5. main transport sensitivity results, interpretation, discussion
+  6. conclusions
+
+## Project specific instructions
+
 
 # Generic instructions
 Follow unless repository specific instruction dosn't explicitly say otherwise.
 
 ## 1. Repository workflow
 
-- Start from `main.tex`. Treat it as the entry point, preamble, macro registry,
-  bibliography setup, glossary source, and document assembly file.
 - Use `build.sh` for compilation. Prefer the repository workflow over ad hoc
   LaTeX commands.
 - Run the build yourself before completing source edits.
-- Do not commit changes.
+- Do not stage or commit changes (unless explicitely asked for).
 - Treat comments containing `AGENT` as local context instructions for the
-  surrounding source.
+  surrounding source (previous or subsequent, but usualy within the same edit unit: paragraph / section)
 - Preserve comments containing `AGENT`. Keep the original comment and, if
   useful, append at most one short line describing how it was resolved.
 - Keep edited source lines near 90 characters where practical.
@@ -29,8 +66,8 @@ Follow unless repository specific instruction dosn't explicitly say otherwise.
 ### 2.1 Style
 
 - Prefer precise, neutral, evidence-based prose.
-- Write densely, but define symbols, assumptions, and technical terms when first
-  needed.
+- Write densely, but define symbols, assumptions, and technical terms when
+  first needed.
 - Keep conclusions traceable to results, figures, tables, or cited sources.
 - Avoid promotional language, vague claims, and unsupported interpretation.
 
@@ -42,6 +79,8 @@ Follow unless repository specific instruction dosn't explicitly say otherwise.
 - Keep notation consistent across the whole document.
 - Use project macros for vectors, tensors, operators, norms, and units, e.g.
   `\vc{}`, `\tn{}`, `\grad`, `\div`, `\norm{}`, `\abs{}`.
+- Reuse project-specific macros such as `\munit{}`, `\bunit{}`, `\URFB`,
+  `\URFBI`, and `\URFBII` where applicable.
 
 ### 2.3 Terminology and acronyms
 
@@ -52,6 +91,8 @@ Follow unless repository specific instruction dosn't explicitly say otherwise.
 - On first use in new text, follow the document’s glossary or acronym style
   rather than hardcoding abbreviations.
 - Do not alternate between equivalent spellings inside one local context.
+- Keep core terms consistent across chapters: `EDZ`, `EIZ`, `HM`, `DFN`,
+  `DFM`, `WPT`, `TSX`, `DGR`, `WDP`, `Bukov URF`, `Bukov URF II`.
 
 ### 2.4 References, figures, and tables
 
@@ -59,6 +100,8 @@ Follow unless repository specific instruction dosn't explicitly say otherwise.
   numbers.
 - Match the local source style for figures, tables, sections, chapters, and
   equations.
+- Prefer the existing reference style in the source, including `\figref{...}`
+  where available and `\eqref{...}` for equations.
 - Label any new section, float, or equation that may be referenced later. Use
   `fig`, `sec`, and `tab` prefixes; equation labels stay without a prefix.
 - This rule applies only to newly introduced labels. Do not rename existing
@@ -91,13 +134,15 @@ Follow unless repository specific instruction dosn't explicitly say otherwise.
 - Use appendices for supporting detail that would interrupt the main flow but
   should remain available to the reader.
 
-## 5. Resolving doubts and inconsistencies
+## 5. Planning, Resolving doubts and inconsistencies
 
-- Keep a final section in `PLAN.md` or a similar planning file for unresolved
-  manuscript inconsistencies, open questions, and suggestions that go beyond
-  the existing text. Create `PLAN.md` if no planning file exists.
-- If local macros or reference commands conflict with these rules, follow the
-  source and note the conflict in the planning file.
+- When planning the work always ask user for more information if in doubts, 
+  instead of guessing the intent.
+- Keep a final section in `PLAN.md` for asking user and also log there any unresolved
+  manuscript inconsistencies, open questions, and suggestions that you run into 
+  during working on the text. 
+- If local macros or reference latex commands conflict with these rules, follow the
+  actual source and just note the conflict in the planning file.
 - If document-specific instructions are missing, infer the document type from
   `main.tex` and state the assumption.
 - Use glossary or acronym machinery only if the project already provides it.
