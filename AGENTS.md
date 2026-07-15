@@ -1,105 +1,115 @@
-# LaTeX sources for transport sensitivity analysis paper draft
+# Project instructions
 
-## Scope and entry point
-- Start from `main.tex`. Treat it as the authoritative entry point, preamble, macro registry, glossary source, and chapter assembly file.
-- Traverse edits from `main.tex` to the relevant `\input` files instead of patching isolated chapter files without checking how they are referenced.
-- The source comes from a technical report that must be rewritten into a paper draft centred on the transport sensitivity analysis study.
+*Write project specific instructions here*
 
-## Hard policy
-- Treat the paper focus as the primary editorial filter: excavation, HM, EDZ/EIZ, bentonite, and fracture-model material should support the transport sensitivity analysis narrative rather than remain as standalone report chapters.
-- Prefer shaping text toward a paper structure and paper argument. Reduce report-style inventory, duplicated background, and broad contextual digressions when they do not directly support the paper objective.
-- Keep the scientific content conservative: condense and reframe aggressively if needed, but do not invent new results, interpretations, or literature support.
-- When deciding what to keep, prioritize material that motivates the model setup, parameter choices, uncertainty quantification, sensitivity results, and implications for near-field transport.
+# Generic instructions
+Follow unless repository specific instruction dosn't explicitly say otherwise.
 
-## Writing style
-- This is going to be a paper draft.
-- Prefer precise, neutral, evidence-based prose over promotional or speculative phrasing.
-- Keep language consistent with the existing manuscript: technical English, domain-specific terminology, and explicit statement of assumptions, limitations, and interpretation scope.
-- Prefer improving clarity, internal consistency, and evidential support over aggressive shortening, but allow substantially stronger compression than in the original report when converting reference-style material into paper-ready text.
-- When editing conclusions or summaries, make them traceable to the body text. Do not add claims that are not supported somewhere in the included chapters or cited sources.
-- Preserve useful interpretation paragraphs, but rewrite chapter-local summaries that read like report recaps into paper-style transitions, synthesis, or discussion where appropriate.
-- Prefer a manuscript voice that explains why each section is needed for the transport sensitivity analysis, not just what was done.
+## 1. Repository workflow
 
-## Paper focus and structure
-- The target manuscript should read as a coherent paper on sensitivity analysis of near-field transport, not as a lightly edited technical report.
-- Prioritize a compact paper arc:
-  1. problem framing and motivation
-  2. model and site context needed to understand the transport study
-  3. key assumptions, parameterization, and uncertainty inputs
-  4. sensitivity-analysis methodology
-  5. main transport sensitivity results
-  6. interpretation, limitations, and implications
-- Move or condense material that is important but secondary to this arc, especially long report-style background, exhaustive parameter surveys, or parallel modelling branches that do not materially affect the transport conclusions.
-- Use excavation- and HM-related sections to justify transport-model inputs, boundary conditions, or uncertainty treatment. If such a link is weak, mark that text for reduction or reframing.
-- Prefer explicit signposting of the paper contribution, scope, and limitations in introductions, section openings, and conclusions.
+- Start from `main.tex`. Treat it as the entry point, preamble, macro registry,
+  bibliography setup, glossary source, and document assembly file.
+- Use `build.sh` for compilation. Prefer the repository workflow over ad hoc
+  LaTeX commands.
+- Run the build yourself before completing source edits.
+- Do not commit changes.
+- Treat comments containing `AGENT` as local context instructions for the
+  surrounding source.
+- Preserve comments containing `AGENT`. Keep the original comment and, if
+  useful, append at most one short line describing how it was resolved.
+- Keep edited source lines near 90 characters where practical.
+- If a build fails, try to fix the source or build setup before stopping.
+- Run read-only output inspection only when requested or when debugging a build
+  or formatting issue.
+- For PDF inspection, prefer CLI tools such as `pdftotext` or `pdfinfo`.
+- Ask the user to inspect output only after you have completed your own checks.
 
-## Math and notation
-- Use `$...$` for inline math and `\[...\]` for displayed math.
-- Reuse macros from `main.tex` for notation, especially `\grad`, `\div`, `\vc{}`, `\tn{}`, `\norm{}`, `\abs{}`, `\munit{}`, `\bunit{}`, and report-specific shortcuts such as `\URFB`, `\URFBI`, and `\URFBII`.
-- Do not reintroduce raw notation where a project macro already exists.
-- Keep notation consistent across chapters, especially for HM, transport, DFN/DFM, EDZ/EIZ, pore pressure, conductivity, and stress quantities.
+## 2. Shared scientific-writing rules
 
-## Terminology and acronyms
-- Keep existing glossary until the last formatting touches.
-- Use existing acronyms in the new text but do not introduce new acronyms.
-- On first use in newly written text, follow the project’s glossary-driven style instead of hardcoding abbreviations.
-- Keep core terms consistent across chapters: `EDZ`, `EIZ`, `HM`, `DFN`, `DFM`, `WPT`, `TSX`, `DGR`, `WDP`, `Bukov URF`, `Bukov URF II`.
-- Respect established spelling already used in the manuscript. Do not arbitrarily switch between variants such as "pore pressure" and "pore-pressure" inside the same local context.
-- Prefer terminology that supports the paper focus. For example, use consistent phrasing for "sensitivity analysis", "transport model", "uncertain inputs", "Sobol indices", and "quantity of interest" across sections that contribute to the main argument.
+### 2.1 Style
 
-## References, figures, tables
-- Preserve and extend cross-references rather than replacing them with hardcoded numbering.
-- Prefer the existing reference style in the source:
-  - `\figref{...}` for figures where available
-  - `Fig.~\ref{...}`, `Tab.~\ref{...}`, `Section~\ref{...}`, `Chapter~\ref{...}` elsewhere, matching local style
-  - `\eqref{...}` for equations
-- Every new float, equation, section target, or table that may be referenced later should get a label.
-- Keep captions technical and informative. If a figure is reused from an external source, preserve or improve source attribution already present in the caption or surrounding text.
-- For the paper rewrite, prefer figures and tables that directly support the transport sensitivity analysis narrative. Mark broad report-style reference figures or tables for consolidation, relocation, or removal if they do not carry argumentative weight.
+- Prefer precise, neutral, evidence-based prose.
+- Write densely, but define symbols, assumptions, and technical terms when first
+  needed.
+- Keep conclusions traceable to results, figures, tables, or cited sources.
+- Avoid promotional language, vague claims, and unsupported interpretation.
 
-## Chapter and file conventions
-- `main.tex` owns the preamble, macros, title page, report metadata, glossary definitions, chapter order, and final conclusions.
-- We will try to flatten the structure iteratively.
-- Current other sources:
-  - `bentonite.tex`
-  - `param_review.tex`
-  - `model_comparison.tex`
-  - `plasticity.tex`
-  - `05_chapter_excavation.tex`
-  - `06_pore_pressure_experiment.tex`
-  - `06_fractures.tex`
-  - `06_TSX_heterogeneity.tex`
-  - `transport.tex`
-- When restructuring, prefer moving paper-level framing, synthesis, and conclusions toward `main.tex`, and keep satellite files focused on technical content that clearly belongs to a distinct section of the paper.
-- Before expanding a section, check whether the same point is already made in another included file; duplicated report-era exposition should usually be merged or removed.
+### 2.2 Math and notation
 
-## Consistency checks to perform on touched text
-- Check terminology consistency against `main.tex` and neighboring chapters.
-- Check that claims in summaries and conclusions match the detailed chapter results.
-- Check acronym expansion and glossary usage.
-- Check references, labels, and citation keys.
-- Check units and numeric formatting for consistency with `siunitx` usage already present in the project.
-- Check that newly added text does not leave unresolved TODO markers, author comments, or placeholder wording.
-- Check that each touched section still contributes clearly to the paper’s central transport sensitivity analysis argument.
-- Check that introductions, summaries, and conclusions reflect paper logic rather than report chronology.
+- Use `$...$` for inline math and `\[...\]` for display math.
+- Reuse macros defined in `main.tex`; do not reintroduce raw notation when an
+  existing macro covers it.
+- Keep notation consistent across the whole document.
+- Use project macros for vectors, tensors, operators, norms, and units, e.g.
+  `\vc{}`, `\tn{}`, `\grad`, `\div`, `\norm{}`, `\abs{}`.
 
-## Editing priorities
-- Prioritize:
-  0. remove SURAO template, use standard latex report template
-  1. remove from main documant but keep as a support material: chapter 02 (bentinite), chapter 4 (hydro mecahnical modelling), 5 experiment interpretation
-  2. turn chapter 06 into whole 'article' document, use introcution as first section, refactor chapter 3 and dispeersion and essential properties discussion from the bentonite chapter into
-  into single section (do not mix with existing transport text.
-  
-  1. alignment with the paper focus on sensitivity analysis of near-field transport
-  2. factual and terminology consistency across chapters
-  3. clear interpretation of results, assumptions, and limitations
-  4. correct cross-references, citations, captions, and notation
-  5. grammar and style polish
-- Be conservative with structural rewrites. This repository contains long, interdependent technical chapters; local edits can easily break report-level consistency.
-- Even so, do not preserve report structure by default if it weakens the paper. Prefer controlled, traceable restructuring in small steps.
+### 2.3 Terminology and acronyms
 
-## Build and verification
-- Do not request a project build from the user as part of the editing workflow. CODEX can run the build on its own.
-- Do the read-only verification steps after the build: inspect generated PDF using Linux CLI tools such as `pdftotext`, `pdfinfo`, or similar read-only utilities.
-  Do this inspection only if requested or if fixing a build issue.
-- In the case of build errors, try to fix them.
+- Preserve established terminology within the manuscript.
+- If a glossary is present, keep using it until final cleanup.
+- Reuse existing acronyms; avoid introducing new ones unless the document
+  clearly requires them.
+- On first use in new text, follow the document’s glossary or acronym style
+  rather than hardcoding abbreviations.
+- Do not alternate between equivalent spellings inside one local context.
+
+### 2.4 References, figures, and tables
+
+- Preserve and extend cross-references; never replace them with hardcoded
+  numbers.
+- Match the local source style for figures, tables, sections, chapters, and
+  equations.
+- Label any new section, float, or equation that may be referenced later. Use
+  `fig`, `sec`, and `tab` prefixes; equation labels stay without a prefix.
+- This rule applies only to newly introduced labels. Do not rename existing
+  user-defined labels.
+- Captions should make figures and tables understandable on their own, while
+  interpretation and detail stay in the main text.
+- If the source already states that a figure or table is adapted or reused,
+  preserve that attribution.
+
+## 3. Article-specific rules
+
+- Optimize for one clear research question or technical claim.
+- Keep only material that supports the paper argument; move broad background to
+  short context paragraphs or appendices.
+- Prefer a tight structure: introduction, method/model, results, discussion,
+  conclusion.
+- When shortening text, keep assumptions, parameter definitions, and evaluation
+  criteria explicit.
+- Figures and tables should carry argumentative weight, not serve as general
+  archive material.
+
+## 4. Technical-report-specific rules
+
+- Optimize for traceability, reproducibility, and practical use.
+- State scope, inputs, assumptions, methods, outputs, and limitations
+  explicitly.
+- Prefer complete procedural descriptions over article-style compression when
+  the information is needed for reuse or review.
+- Keep recommendations tied to observed data, calculations, or stated criteria.
+- Use appendices for supporting detail that would interrupt the main flow but
+  should remain available to the reader.
+
+## 5. Resolving doubts and inconsistencies
+
+- Keep a final section in `PLAN.md` or a similar planning file for unresolved
+  manuscript inconsistencies, open questions, and suggestions that go beyond
+  the existing text. Create `PLAN.md` if no planning file exists.
+- If local macros or reference commands conflict with these rules, follow the
+  source and note the conflict in the planning file.
+- If document-specific instructions are missing, infer the document type from
+  `main.tex` and state the assumption.
+- Use glossary or acronym machinery only if the project already provides it.
+
+## 6. Build configuration
+
+- Use `build.sh` for normal local compilation.
+- `build.sh` builds `main.pdf` and, when a Git reference is available, also
+  builds `main-d.pdf` as a comparison PDF.
+- Use `latexmkrc` for hosted editors such as Overleaf and for direct `latexmk`
+  use.
+- If a project needs special latexdiff handling for macros, define it in
+  `latexmkrc`.
+- On Overleaf, a plain build should work without local Git state. If
+  `main-old.tex` is present, `latexmkrc` may also build a diff PDF.

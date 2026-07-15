@@ -1,67 +1,74 @@
-\documentclass{surao}
+\documentclass[11pt,a4paper]{article}
 
-\usepackage{placeins}
-\usepackage{float} % preamble
-\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,left=2.5cm,top=2.5cm,right=2.5cm,bottom=2.5cm]{geometry}
 
-%\usepackage{lipsum}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
-%\usepackage{amssymb}
-
-\usepackage{xspace}
-\usepackage{mdframed}
-
+\usepackage{bm}
 \usepackage{booktabs}
-\usepackage{subcaption}
-\usepackage{multirow}
-
-\usepackage{tabularx}
 \usepackage{caption}
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{mdframed}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\usepackage[
+  acronym,
+  nonumberlist,
+  nopostdot,
+  nogroupskip
+]{glossaries}
+\usepackage[
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=green,
+  urlcolor=violet
+]{hyperref}
+\usepackage[
+  backend=biber,
+  style=iso-authoryear,
+  uniquelist=false,
+  giveninits=true,
+  minnames=1,
+  maxnames=2,
+  minbibnames=99,
+  maxbibnames=99,
+  uniquename=false
+]{biblatex}
+\usepackage{siunitx}
+
 \captionsetup[table]{font=normalsize}
 \captionsetup[figure]{font=normalsize}
 \captionsetup[subfigure]{font=normalsize}
-\usepackage{placeins}
-\usepackage{makecell}
 \renewcommand{\cellalign}{r}
 
-\usepackage{siunitx} % number formatting
-\sisetup{exponent-product=\cdotp, % change \times to \cdotp for the sign between mantisa and exponent
-    per-mode = reciprocal,
-    inter-unit-product = \ensuremath{{}\cdot{}} % \mps: m\cdot s^{-1}
+\sisetup{
+  exponent-product=\cdotp,
+  per-mode=reciprocal,
+  inter-unit-product=\ensuremath{{}\cdot{}}
 }
 
-%TABLE
-% \usepackage{colortbl} %colored table
-% \usepackage{hhline} %double hlines
-% \usepackage{array}
-
-% \usepackage[colorlinks=true]{hyperref}
-% \usepackage[linesnumbered,algoruled,boxed,lined]{algorithm2e}
-% \usepackage{graphicx}
-% \usepackage{caption}
-% \usepackage{float}
-% \usepackage{placeins}
-% \usepackage{hhline}
-% \usepackage{MnSymbol}
-% \usepackage[scientific-notation=true]{siunitx}
-% \usepackage{booktabs}
-% \usepackage{xcolor}
-% \usepackage{nicematrix}
-
-
-% \newtheorem{theorem}{Theorem}[section]
-% \newtheorem{corollary}{Corollary}[theorem]
-% \newtheorem{lemma}[theorem]{Lemma}
-
-% own macros - merged, unique, alphabetical order
+% own macros - aligned with main.tex
 \def\abs#1{|#1|}
 \def\argdot{{\hspace{0.18em}\cdot\hspace{0.18em}}}
 \def\avg#1{\langle#1\rangle}
 \def\Bavg#1{\Left\langle#1\Right\rangle}
 \def\Cov{\mathop{\rm Cov}}
+\def\Cup{\bigcup}
 \def \D{{{\rm I\kern-.3em D}}}
-\def\d{\,{\rm d}}               % differential
+\def\d{\,{\rm d}}
 \def\degree{^\circ}
 \def \E{{\mathsf E}}
 \def\eps{\varepsilon}
@@ -78,45 +85,69 @@
 \def\R{\mathbf{R}}
 \def\Real{\mathbb R}
 \DeclareMathOperator{\Span}{span}
-%\def\tn#1{\boldsymbol{#1}}
-\newcommand{\tn}[1]{{\symbfit{#1}}}
+\newcommand{\tn}[1]{{\bm{#1}}}
 \def\todo#1{{\color{red}TODO: #1}}
 \def\tvl{\vc{\tilde\lambda}}
 \def\uu{\vc u}
-\def\var#1{\llangle#1\rrangle}
+\def\var#1{\langle\!\langle#1\rangle\!\rangle}
 \def\Var{\mathop{\rm Var}}
-%\def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
-\newcommand{\vc}[1]{{\symbfit{#1}}}
+\newcommand{\vc}[1]{{\bm{#1}}}
 \def\vl{{\vc\lambda}}
 \def\vmu{\vc\mu}
 \def\vnu{\vc\nu}
 \def\vphi{\vc\phi}
 
-% Force overwrite \div symbol
-% comming from unicode-math
 \AtBeginDocument{%
-  % keep the original division symbol (÷) if you ever need it
   \let\divsymbol\div
-  % overwrite \div unconditionally as the divergence operator
   \gdef\div{\mathop{\mathrm{div}}\nolimits}
 }
 
 % units
 \def\munit#1{\,\mathrm{#1}}
 \def\bunit#1{[\hspace{1pt}\mathrm{#1}]}
-\def\mps{\unit{\meter\per\second}} %m$\cdot$s\textsuperscript{-1}\xspace} % m/s
-\def\msq{m\textsuperscript{2}\xspace} % m^2
+\def\mps{\unit{\meter\per\second}}
+\def\msq{m\textsuperscript{2}\xspace}
 
-\newcommand{\js}[1]{{\color{red}#1}}  % Jan Stebel
-\newcommand{\jb}[1]{{\color{violet}#1}}  % Jan Brezina
-\newcommand{\pe}[1]{{\color{green}#1}}  % Pavel Exner
-\newcommand{\sts}[1]{{\color{orange}#1}}  % Standa Sysala
+\newcommand{\js}[1]{{\color{red}#1}}
+\newcommand{\jb}[1]{{\color{violet}#1}}
+\newcommand{\pe}[1]{{\color{green}#1}}
+\newcommand{\sts}[1]{{\color{orange}#1}}
 
 \addbibresource{report.bib}
+\let\cite\textcite
 
-% GLOSSARY
+\AtEveryBibitem{%
+  \clearfield{month}%
+  \clearfield{note}%
+  \ifboolexpr{
+    test {\ifentrytype{book}}
+    or test {\ifentrytype{article}}
+    or test {\ifentrytype{collection}}
+    or test {\ifentrytype{incollection}}
+    or test {\ifentrytype{inproceedings}}
+  }{%
+    \clearfield{url}%
+    \clearfield{urlyear}
+  }{}
+}
 
+\DeclareDelimFormat[cite]{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat[cite]{finalnamedelim}{\addspace\bibstring{and}\space}
+\DeclareDelimFormat[textcite]{finalnamedelim}{\addspace\bibstring{and}\space}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareFieldFormat{doi}{%
+  \newline
+  \mkbibacro{DOI}\addcolon\space
+  \ifhyperref
+    {\href{http://dx.doi.org/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+\DeclareFieldFormat{url}{%
+  \newline
+  \mkbibacro{URL}\addcolon\space
+  \href{#1}{\nolinkurl{#1}}}
+\setlength{\bibitemsep}{0.5\baselineskip}
 
+% glossary
 \newacronym{BCV}{BCV}{Non-activated Ca--Mg bentonite from the Černý vrch deposit}
 \newacronym{ceg}{CEG}{Experimental Geotechnics Centre, CTU in Prague}
 \newacronym{m181}{M181}{Compacted pelletized bentonite (lens-shaped pellets)}
@@ -141,258 +172,45 @@
 \newacronym{GM}{GM}{Geometric Mean}
 \newacronym{CIF}{CIF}{Confidence Interval Factor}
 \newacronym{L5}{L5}{L5 laboratory gallery of the Bukov URF II}
-% Acronyms from Felipe's chapter 5 (Plasticity models of EDZ):
 \newacronym{bidz}{BIDZ}{Blast-Induced Damage Zone}
 \newacronym{WPT}{WPT}{Water Pressure Test}
-
 \newacronym{SNF}{SNF}{Spent Nuclear Fuel}
 \newacronym{DFM}{DFM}{Discrete Fracture -- Matrix}
 \newacronym{DFN}{DFN}{Discrete Fracture Network}
 \newacronym{QoI}{QoI}{Quantity of Interest}
-
-
 
 \DeclareMathOperator{\conf}{CI}
 \DeclareMathOperator{\cif}{CIF}
 \DeclareMathOperator{\gm}{GM}
 \DeclareMathOperator{\std}{std}
 
-% SURAO terminology shortcuts
-% PE: proc tam davame \xspace? proc tam davame \arcshort?
 \newcommand{\URFB}{the Bukov \acrshort{URF}\xspace}
 \newcommand{\URFBI}{Bukov \acrshort{URF}~I\xspace}
 \newcommand{\URFBII}{Bukov \acrshort{URF}~II\xspace}
 \newcommand{\Rozna}{Ro\v zn\'a I mine\xspace}
-
-% for tables
 \newcommand{\URFBIm}{Bukov\newline \acrshort{URF}~I\xspace}
 \newcommand{\URFBIIm}{Bukov\newline \acrshort{URF}~II\xspace}
 
-
-% \newacronym{efz}{EFZ}{excavation damage zone}
-% \newacronym{ekz}{EKZ}{foooooooooooooooooooooooo}
-% \newacronym{faa}{FAA}{faaaaaaaaaaaaaaaaaaaaaaaa}
-% \newacronym{foo}{FOO}{foooooooooooooooooooooooo}
-% \newacronym{boo}{BOO}{boooooooooooooooooooooooo}
-
-% \newglossaryentry{container}
-% {
-%         name=Conrete container,
-%         description={A concrete container is a spent fuel disposal container approved for the deposition of radioactive waste unacceptable for near-surface or deep repositories.}
-% }
-% \newglossaryentry{safety}
-% {
-%         name=Safety function,
-%         description={The safety function refers to operations of the system, structure, components, or another part of the nuclear equipment that are important for ensuring nuclear safety of the nuclear equipment.}
-% }
-
-\suReportNumber{891/2025}
-\suReportYear{2025}
-\suShortTitle{Excavation and Near-Field Transport}
+\title{Excavation-Induced Changes and Sensitivity of Near-Field Transport}
+\author{Jan Březina, Jan Stebel, Pavel Exner, Stanislav Sysala, Martin Hasal, Zdeněk Michalec, Felipe Gutierrez, Michal Béreš, Petr Koníček}
+\date{May 2026}
 
 \begin{document}
-\glsenablehyper
+\maketitle
 
+\begin{abstract}
+This work analyses excavation-induced changes in the rock mass and the sensitivity of contaminant transport through engineered barriers and the near field. The modelling uses data from experiments at the Bukov URF and focuses on interpreting pore-pressure measurements during excavation using hydro-mechanical (HM) models. A strong influence of fracture heterogeneity and foliation on pore-pressure time series is identified, and plausible physical interpretations of the observed signals are discussed. Comparison of linear-elastic and elasto-plastic excavation models indicates a damaged zone extent of approximately 0.5 m and confirms low error in predicting conductivity changes when using a linear-elastic HM approach. For inverse analysis, fracture heterogeneity must be included; its suitable parameterization remains open. The HM model is then used to predict excavation effects on permeability around access tunnels and deposition boreholes. A sensitivity analysis of transport to a nearby geological fault is performed using Sobol indices.
+\end{abstract}
 
-\TitlePage{
-    title={Excavation-Induced Changes and Sensitivity of Near-Field Transport},
-    subtitle={Technical Report 2025},
-    author={Jan Březina, Jan Stebel, Pavel Exner, Stanislav Sysala, Martin Hasal, Zdeněk Michalec, Felipe Gutierrez, Michal Béreš, Petr Koníček},
-    %institution={Faculty of Mechatronics, Technical University of Liberec},
-    date={December 2025}
-}
-
-\def\tss#1{\textsuperscript{#1}}
-\ReportInfo{
-    reportname = {Excavation-Induced Changes and Sensitivity of Near-Field Transport},
-    projectname = {Influence of Radionuclide Transport in Rock by Disposal Tunnels and EDZ\\
-    (Ovlivnění transportu radionuklidů v hornině ukládacími chodbami a EDZ.)},
-    projectid = {DZ04},
-    contractnumber = {SO2021-053-06},
-    bibrecord = {\smallcaps{Březina} J., \smallcaps{Stebel} J., \smallcaps{Exner} P., \smallcaps{Sysala} S., \smallcaps{Hasal} M., \smallcaps{Michalec} Z., \smallcaps{Gutierrez} F., \smallcaps{Béreš} M.,
-    \smallcaps{Koníček} P.
-    (2025): {Excavation-Induced Changes and Sensitivity of Near-Field Transport.}, SÚRAO,
-    technical report no., Praha, 155~p.
-},
-    researchers = {
-    \\Faculty of Mechatronics, Informatics and Interdisciplinary Studies,\\Technical University of Liberec\tss1
-    \\Institute of Geonics, Czech Academy of Sciences\tss2},
-    authors = {{Březina} J.\tss1, {Stebel} J.\tss1, {Exner} P.\tss1, {Sysala} S.\tss2, {Hasal} M.\tss2, {Michalec} Z.\tss2, {Gutierrez} F.\tss2, {Béreš} M.\tss2, {Koníček} P. \tss2},
-    managernameone = {Ondrej Mikláš},
-    manageraffiliationone = {SÚRAO},
-    managernametwo = {Jan Březina},
-    manageraffiliationtwo = {TUL}
-}
-
-
-\TableOfContents
-
-
-\newpage
-\MakeAbstract{
-lang = cs,
-abstract = {
-Práce analyzuje ovlivnění horninového prostředí ražbou (EIZ) a citlivostní analýzu transportu kontaminace přes inženýrské bariéry a blízké pole.
-Modelově jsou použita data z experimentů v PVP Bukov. Klíčová je interpretace experimentu měření pórových tlaků při ražbě s využitím HM modelů. Jsou představeny možné fyzikální interpretace pozorovaných signálů se zásadním vlivem puklinové heterogenity a foliace na měřené časové řady pórových tlaků. Porovnání lineárně elastického a plastického model ražby ukazuje rozsah porušené horniny cca do 0.5 m a potvrzuje nízkou chybu predikce změn vodivosti při použití HM modelu s lineární elasticitou. Pro inverzní analýzu experimentu je nutné zahrnout vliv puklinové heterogenity, otázka vhodné parametrizace zůstává otevřená. 
-HM model je využit pro predikci (EIZ) po  uzavření úložiště. Následně je provedena citlivostní analýza transportu kontaminace do blízké geologické poruchy. Pomocí Sobolových indexů je analyzován vliv nejistot vstupů modelu na rozptyl výstupní koncentrace. 
-},
-keywords={Hlubinné úložiště, PVP Bukov, Inženýrské bariéry, zóna ovlivněná ražbou (EIZ), HM model, diskrétní puklinová síť, discrete fracture-matrix DFM, model transportu, disperze, citlivostní analýza, Sobolovy indexy}
-}
-
-% \vfil
-\vspace{10pt}
-\MakeAbstract{
-lang = en,
-abstract = {
-This work analyses excavation-induced changes in the rock mass and the sensitivity of contaminant transport through engineered barriers and the near field. The modelling uses data from experiments at the Bukov URF and focuses on interpreting pore-pressure measurements during excavation using hydro-mechanical (HM) models. A strong influence of fracture heterogeneity and foliation on pore-pressure time series is identified, and plausible physical interpretations of the observed signals are discussed. Comparison of linear-elastic and elasto-plastic excavation models indicates a damaged zone extent of approximately 0.5 m and confirms low error in predicting conductivity changes when using a linear-elastic HM approach. For inverse analysis, fracture heterogeneity must be included; its suitable parameterization remains open. The HM model is then used to predict excavation effects on permeability around access tunnels and deposition boreholes. A sensitivity analysis of transport to a nearby geological fault is performed using Sobol indices. 
-},
-keywords={Deep geological repository, Bukov URF, engineered barriers, excavation influence zone (EIZ), hydro-mechanical model, discrete fracture network (DFN), DFM, transport model, dispersion, sensitivity analysis, Sobol indices}
-}
-
-\chapter{Introduction}
-%  % Usage of glossary macro.
-%  At first, define abbreviation \Gls{dgr}. Second use of abbreviations: \Gls{dgr}.
-%  % Add abbreviation to the list without mentioning it in text
-%  \glsadd{wdp}
-%  % \glsadd{foo} \glsadd{boo} \glsadd{ekz} \glsadd{faa} \Gls{efz}
-%  Term \Gls{container}.
-%  % Add term to the list without mentioning it in text
-%  \glsadd{safety}
-%  \newline
-
-
-
-In the Czech Republic, the planned \Gls{DGR} in crystalline rock will benefit from a geologically stable, predominantly low-permeability host formation that provides an important natural barrier. However, excavation of access tunnels and disposal wells will inevitably alter the surrounding rock mass. Irreversible damage may occur in the form of newly created microcracks caused by blasting and excavation-induced stress redistribution in the immediate vicinity of the excavation; this zone is commonly referred to as the \gls{EDZ}. In addition, a much larger region---the \gls{EIZ}---may experience reversible changes in hydraulic properties. Both the \gls{EDZ} and \gls{EIZ} may act as preferential pathways for contaminant transport to major geological faults.
-
-The methodology proposed by \cite{BrezinaMethodology2023} was developed to characterize \gls{EIZ}-related changes using pore-pressure monitoring during and after excavation. Bayesian inference was subsequently applied to estimate permeability values for intact rock and the \gls{EIZ}, including associated uncertainties. The near-field contaminant transport model was then used to predict concentration at a nearby geological fault serving as a safety indicator and to assess several bounding scenarios of \gls{EIZ} extent and source distance in a preliminary uncertainty analysis.
-
-This project further extends and validates the methodology using updated \gls{DGR} design parameters and recent experimental data from \URFB. Its goals are:
-
-\begin{itemize}
-    \item Analyze the saturation of \gls{BCV}-type bentonite backfill and the evolution of its mechanical and hydraulic properties.
-
-    \item Use in-situ pore-pressure measurements from \URFBII to validate the methodology by \cite{BrezinaMethodology2023}, in particular its hydro-mechanical model of tunnel excavation and the resulting changes in the hydraulic properties of the \gls{EIZ}.
-
-    \item Predict the evolution of the rock-mass stress state and key transport parameters (in particular permeability) within the \gls{EIZ} after repository closure and full saturation of the tunnel backfill.
-
-    \item Apply the methodology to evaluate radionuclide transport through disposal wells and backfilled access tunnels, accounting for transport within the \gls{EIZ} and the rock fracture network.
-
-    \item Quantify uncertainty in the concentration-based safety indicator with respect to transport-model inputs (fracture network, \gls{EIZ} properties, intact-rock properties, and bentonite properties) using suitable statistical inference methods.
-\end{itemize}
-
-The report is organized as follows. Chapter \ref{ch:bentonite} summarizes the available data for Czech bentonite, \gls{BCV}, together with results from key international experiments. These data are used to address fundamental questions related to heterogeneity, gap filling, swelling pressure, and transport parameters. Next, Chapter \ref{chapter:review} reviews the available experimental evidence on the mechanical, hydraulic, and diffusion properties of the rock mass at \URFB.
-
-These datasets provide the basis for comparison of excavation models presented in Chapter \ref{ch:model_comparison}, which offers a detailed comparison of two contrasting approaches: a transient hydro-mechanical model with linear elasticity (Flow123d) and a time series of steady mechanical models with plasticity (FLAC3D). 
-
-In Chapter \ref{ch:inversion}, we analyze results from the mine-by pore-pressure monitoring experiment at \URFBII, in which the advancing tunnel face passed in the vicinity of instrumented boreholes. We present a Bayesian analysis of \gls{WPT}s and interpret the observed responses to \gls{WPT}s and excavation. We then apply the HM model from Chapter \ref{ch:model_comparison} to infer the initial pressure field, as a first step toward a heterogeneous 3D model capable of reproducing unexpected pressure readings. The chapter concludes with a practical demonstration of Bayesian inversion accelerated using a neural-network surrogate of the HM model—an approach that will be essential for future inversion with the full 3D model.
- 
-Finally, Chapter \ref{ch:transport} presents the near-field transport model and its sensitivity analysis. The developed HM model is used to predict permeability changes after excavation and after closure of an access tunnel. These predictions, together with data from Chapters \ref{ch:bentonite} and \ref{chapter:review}, are used to construct a stochastic model for transport inputs which is used to perform a sensitivity analysis based on Sobol indices. The conclusions, open questions, and planned developments are summarized in Chapter \ref{ch:conclusions}.
-
-% =================================================
-
-\chapter{Analysis of backfill properties}
-\label{ch:bentonite}
-\input bentonite
-
-% =================================================
-
-
-\chapter{Review of hydro-mechanical properties of rocks in Bukov URF II}
-\label{chapter:review}
-\input param_review
-
-% =================================================
-
-\chapter{Hydro-mechanical model of excavation}\label{ch:model_comparison}
-% \jb{TODO: merge following chapters into one.} \sts{[S: Souhlasim, jen je treba neco z pate kapitoly presunout do treti kapitoly.]}
-
-\input model_comparison
-\input plasticity
-
-
-\input 05_chapter_excavation
-% =================================================
-
-\chapter{Sensitivity analysis of a near-field transport model}
-\label{ch:transport}
-
+\input article_intro
+\input article_context
 \input transport
+\appendix
+\input article_support_appendix
 
-\chapter{Conclusions}
-\label{ch:conclusions}
-
-\section*{Bentonite backfill}
-For fully saturated conditions at the design-average dry bulk density $\rho_d \approx 1400\,\mathrm{kg/m^3}$, the swelling pressure of the \emph{pelletised} \gls{BCV} backfill is estimated as $p_s \approx 1.5\text{--}2.5\,\mathrm{MPa}$, whereas compacted pellets or blocks in the buffer may develop substantially higher pressures up to $\sim 6\,\mathrm{MPa}$. After emplacement, a vertical dry-density gradient is expected (segregation effects), implying a heterogeneous hydraulic conductivity field of roughly $k \approx (0.5\text{--}20)\cdot 10^{-13}\,\mathrm{m/s}$. Upon saturation, pellet swelling should close upper voids and progressively homogenise the structure, so persistent preferential pathways are not expected. Sealing of uneven rock surfaces with decimetre-scale roughness is therefore plausible, but it depends on (i) a loading technique that limits systematic void formation and (ii) a suitable pellet grain-size distribution promoting dense packing. These predictions are inferred by analogy with available experiments.
-
-The main open questions concern the early unsaturated stage. For numerical HM modelling of saturation and transient heterogeneity, the key limitation is the lack of measured \emph{unsaturated} HM parameters for the required \gls{BCV} pellet fraction $0\text{--}50\,\mathrm{mm}$. Two targeted experiments are therefore recommended: (1) laboratory or in-situ characterization of unsaturated HM functions for \gls{BCV} pellets at $\rho_d \approx 1400\,\mathrm{kg/m^3}$, and (2) a representative emplacement test with controlled saturation to quantify the density and void distribution and the effectiveness of rough-wall sealing.
-
-\section*{HM models of EIZ}
-    
-\paragraph{Verification of the excavation HM model against plasticity}
-Chapter~\ref{ch:model_comparison} shows that a fully coupled poroelastic HM model with linear elasticity (Flow123d) is adequate for transport-related predictions of excavation-induced pore-pressure response. Solver-to-solver verification confirmed that the elastic response can be matched between Flow123d and the reference mechanical model (FLAC3D). Comparison with a Hoek--Brown plasticity model further indicates that yielding is confined to an \gls{EDZ} with a thickness mostly below  $0.5\,\mathrm{m}$, where the poroelastic approximation overestimates stress changes and the associated permeability increase. 
-% JS: affected by the computational mesh, 
-% localy refined mesh would be necessary for 
-% more precise determination of the extend.
-A locally refined computational mesh would be necessary for a more precise determination of the \gls{EDZ} extent. Outside this narrow \gls{EDZ}, both models give nearly identical displacements and stress redistribution, so linear-elastic HM modelling is sufficient, and conservative with respect to disturbed permeability, for \gls{EIZ} transport-property predictions.
-
-
-\paragraph{Interpretation of Bukov URF II pore-pressure experiment}
-Pore-pressure monitoring provides two qualitative confirmations of the experiment design: (i) the characteristic time scale of the response falls within the predicted range, and (ii) characteristic excavation-induced signals are clearly detectable in the records. However, the measured amplitudes are typically much smaller than predicted and the characteristic patterns appear spatially shifted relative to a homogeneous HM model. The observations strongly suggest that the response is governed by a combination of a few large, connected fractures and numerous small, weakly connected or isolated cracks (likely foliation-related), implying a substantially lower apparent Young's modulus than the values assumed in the baseline model and suggested by the evidence summarised in Chapter~\ref{chapter:review}.
-
-\paragraph{Bayesian interpretation of WPTs}
-In the absence of an agreed parameterisation of a heterogeneous 3D model, the Bayesian framework was applied to individual \gls{WPT}s using a simplified 1D measurement-cell model. The results enable reconstruction of the pre-excavation pressure field, provide consistent qualitative indications of decreased apparent Young's modulus, and yield first-order indications of changes in hydraulic conductivity and stiffness before and after excavation. Due to the limited physical representativeness of the model, these inferences remain qualitative.
-
-\paragraph{Inversion for 3D model with discrete fractures}
-Chapter~\ref{ch:inversion} shows that a homogeneous 3D HM model cannot reproduce the pressure dataset. The model was therefore augmented by discrete fracture surfaces derived from outcrops and borehole logs. Fitting fracture-region hydraulic conductivities to the initial pressure heads substantially improved agreement (pressure misfit reduced to $\sim 9~\%$ of the homogeneous-model value), while the remaining discrepancies suggest hydraulically isolated zones not yet captured by the current fracture representation.
-
-\paragraph{Surrogate-accelerated Bayesian inversion}
-The delayed-acceptance MCMC workflow based on the \cite{surrDAMH} library was extended with neural-network surrogates and demonstrated on a TSX-motivated heterogeneous 2D HM model with dozens of parameters, providing a viable computational pathway toward Bayesian inversion for 3D HM models.
-
-\paragraph{Conclusion with respect to validation goal}
-Overall, the methodology could not yet be validated quantitatively against the full Bukov dataset: the measured pressure changes clearly confirm excavation-induced perturbations, but the readings are strongly affected by fracture-controlled heterogeneity whose localised character makes inversion extremely challenging. A viable route forward is to combine improved local models of the measurement cells with a heterogeneous 3D HM model and a surrogate-assisted accelerated Bayesian framework. Further work may include:
-\begin{itemize}
-    \item Improve local cell models by adding 3D context and fractures identified from borehole logs, calibrate them using available (and new) \gls{WPT} data, and use the calibrated local models (or their surrogates) to map the applied stress-tensor field to the measured cell pressure response.
-    \item Further develop a physically meaningful parameterisation of 3D heterogeneity (fracture connectivity, isolated domains) with a relatively small parameter set, and apply likelihood-informed reduction of the parameter space.
-\end{itemize}
-
-
-\section*{Near-field transport model}
-
-\paragraph{Repository-scale meaning of the workflow}
-The main achievement of the transport study is not a single deterministic prediction, but a workflow that links repository-relevant transport scenarios with measurable geological and engineering inputs and then ranks their importance through global sensitivity analysis. This provides a practical basis for deciding which uncertainties must be reduced to support a future safety case and which ones are of secondary importance.
-
-\paragraph{Implication for near-field safety}
-For the considered repository-scale near-field setting, transport remains predominantly diffusion-controlled. This is favourable for safety assessment because it means that even when local advective pathways exist, the near field still acts as a retarding domain. At the same time, the calculations show that discrete fractures can still shorten breakthrough times substantially and must therefore be represented explicitly in any realistic safety-oriented model.
-
-\paragraph{What controls predictive uncertainty}
-The dominant uncertainty is associated with the fracture system, and in particular with the interaction between the predominantly aleatory uncertainty of the \gls{DFN} realization and the predominantly epistemic uncertainty of the \gls{DFN} parameters. The first component becomes partly epistemic after excavation, when wall mapping can significantly constrain the realization of the larger fractures. The second component could in principle also be reduced, but during site selection it will likely remain high because it is based mainly on borehole-log datasets that are strongly orientation biased. After actual excavation, much larger datasets and correspondingly lower uncertainty can be expected. From this perspective, a key open question is the development of fracture-sampling algorithms that can incorporate wall-mapping data and thus reduce uncertainty in the fracture system. In addition, the numerical results indicate that fracture geometry and connectivity are more influential than fracture transmissivity, which is important for prioritizing future site-characterization efforts.
-
-
-\paragraph{Engineering implication}
-In our study, the EDZ and backfill remain relevant, but mainly through their interaction with the surrounding fractured rock rather than as isolated controlling barriers. Their total-effect indices are still substantial, on the order of one quarter of the \gls{DFN}-related uncertainty, so they may become dominant once the \gls{DFN}-related uncertainty is reduced. This means that engineered-barrier design and excavation technology still matter for safety, yet their role must be assessed together with the local fracture network and stress-induced permeability changes.
-
-\paragraph{Small scale fractures and scalability}
-The main game changer would be full integration of fast and accurate numerical homogenization. This would allow us to capture the effect of small-scale fractures through effective heterogeneous tensor fields, to represent the currently neglected spatial variability of the parameter fields, and to construct multiscale estimators for the Sobol indices. In turn, this would make it possible to scale the workflow both to finer resolutions, thereby reducing numerical uncertainty, and to larger domains covering interactions between neighboring access tunnels.
-
-% \todo{TEST SMALLCAPS: Normal Bukovská — \fauxscbib{Bukovská}}
-
-% Results indicate diffusion-dominated transport controlled by uncertainties in DFN parameters and fracture arrangement, whereas the EDZ influence is relatively small and becomes significant mainly through interactions with other factors.
-
-\nocite{flow123d}
-\nocite{tz_hh_eng}
-\nocite{Bukovska2025finalENG}
-% \bibliographystyle{plain}
-% \bibliography{theory.bib}
 \begingroup
 \sloppy
 \printbibliography
 \endgroup
-
-
-
-\newpage
-\appendix
-
-\makeLastPage
 
 \end{document}

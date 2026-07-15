@@ -1,0 +1,21 @@
+\section{Support Material Retained Outside the Article Core}
+
+The restructuring in this phase removes several report chapters from the article core while preserving their source files in the repository. The extracted transport article therefore continues to rely on support material that is not reproduced here in full.
+
+\subsection{Hydro-mechanical excavation modelling}
+\label{ch:model_comparison}
+
+Detailed excavation modelling based on \texttt{model\_comparison.tex} and \texttt{plasticity.tex} is retained as support material. In the article build, these analyses are not included as standalone sections; they remain available as source material for later synthesis into a shorter paper-oriented discussion of excavation-induced permeability changes.
+
+The transport chapter refers to the stress-dependent conductivity relation used in the supporting hydro-mechanical model. For reference continuity in the article build, we retain that relation here:
+\begin{equation}
+\label{eq:conductivity_relation}
+k(\vc\sigma) = \frac{\varrho_w g}{\mu_w} \left[
+      \kappa_r + \kappa_\delta\exp\left(\log\left(\frac{\kappa_0 - \kappa_r}{\kappa_\delta}\right) \frac{\sigma_m}{\sigma_0}\right)
+  \right] \exp\left(\gamma\frac{\max\{0,\sigma_{\mathrm{VM}c} - \sigma_c\}}{\sigma_c}\right).
+\end{equation}
+
+\subsection{Pore-pressure experiment interpretation and inverse analyses}
+\label{ch:inversion}
+
+Detailed interpretation of the pore-pressure experiment and the associated inverse analyses, currently represented by \texttt{05\_chapter\_excavation.tex}, \texttt{06\_pore\_pressure\_experiment.tex}, \texttt{06\_fractures.tex}, and \texttt{06\_TSX\_heterogeneity.tex}, are likewise retained as support material. They are excluded from the article core at this stage but remain available for later extraction of selected results and discussion points.
