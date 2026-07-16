@@ -1,0 +1,197 @@
+\section{Model Parametrization}
+\label{sec:model_parametrization}
+
+This section compiles the subset of site, rock, and backfill information that
+is directly needed by the transport study. It is extracted from the broader
+review of \URFBII properties and from the bentonite chapter, but it is
+intentionally limited to transport-relevant context.
+
+\subsection{Site-Specific Data}
+\label{sec:site_specific_data}
+
+\subsubsection{Geological setting and role in the transport model}
+
+The geological context of \URFBII is rooted in the complex geomechanics of the
+12\textsuperscript{th} level of the \Rozna mine in the Czech Republic, situated
+approximately 500--600 meters below the earth's surface. The research facility
+consists of several galleries, each approximately 70--90 m long, accessed from
+the main transport gallery P\v S1-123, see Fig.~\ref{fig:mapa}. The zone of
+interest for the present study is around the L5 laboratory gallery and the
+adjacent test chambers ZK5-1J and ZK5-1S.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{graphics/mapa_en.pdf}
+    \caption{Situation plan of \URFBII.}
+    \label{fig:mapa}
+\end{figure}
+
+The geology is heavily influenced by metamorphic processes, with structural
+foliation affecting both mechanical and hydraulic properties. According to the
+detailed geological model created by the Czech Geological Survey
+(\cite{Bukovska2025final}), the lithologies present at the site primarily
+include migmatitized amphibolite, migmatite, and biotite-amphibole paragneiss
+migmatitized. For the transport study, this context is important mainly because
+it supports the use of heterogeneous hydraulic properties and motivates
+explicit representation of fracture-controlled pathways in the surrounding
+rock.
+
+\subsubsection{Hydraulic conductivity}
+\label{sec:hydro_cond}
+
+The review of laboratory and in-situ measurements indicates that the
+intact-rock hydraulic conductivity spans several orders of magnitude, with
+matrix-scale values typically near $10^{-13}$ to $10^{-11}\,\munit{m/s}$ and
+substantially higher values observed in hydraulically active fracture zones.
+For transport modelling, this supports two distinct roles of uncertainty:
+relatively low matrix conductivity controlling diffusive retardation in the
+rock mass, and fracture-related conductivity variability controlling
+preferential flow and breakthrough.
+
+\subsubsection{Porosity, storativity and Biot-Willis coefficient}
+\label{sec:storativity}
+
+Based on the available density and porosity data, the investigated rock massif
+in \URFBII\ exhibits very low porosity, with total porosity mostly between 1
+and 3~\% and open porosity generally below 1~\%. Such values are
+characteristic of compact crystalline and metamorphic rocks and indicate
+limited pore volume contributing to fluid storage. For modelling purposes, a
+representative matrix porosity range
+\[
+\phi \approx 0.001\text{--}0.02
+\]
+can be adopted.
+
+The Biot--Willis coefficient $\alpha$ is defined as
+\[
+\alpha = 1-\frac{K_D}{K_S},
+\]
+where $K_D$ is the drained bulk modulus of the rock and $K_S$ the bulk modulus
+of the solid phase. In low-porosity, high-stiffness crystalline rocks, $K_D$
+approaches $K_S$, leading to relatively small $\alpha$ values. Experimental
+studies on dense crystalline and low-porosity rocks typically report
+\[
+\alpha \approx 0.1\text{--}0.3.
+\]
+Considering the measured porosity, the high stiffness of the metamorphic rocks
+at the site of Rožná/Bukov, and published poromechanical data for similar
+lithologies, this range is regarded as mechanically consistent for the intact
+rock matrix. Using representative elastic parameters and water properties, the
+resulting storativity is of the order
+\[
+S \approx 10^{-7}\text{--}10^{-5}\,\unit{\per\meter},
+\]
+which is typical for low-permeability crystalline rock environments.
+
+\subsubsection{Effective diffusion in rock}
+\label{sec:review_diffusion}
+
+Effective diffusivity has been determined by laboratory measurements on
+large-volume samples from the 12\textsuperscript{th} floor of \URFBI. Two
+methods were employed, namely the analytical solution and the time-lag method
+(\cite{tz_hh}). The obtained values are summarized in
+Table~\ref{tab:diffusivity_article}.
+
+\begin{table}[htb]
+\centering
+\caption{Measurements of effective diffusivity used as transport context for
+the article build.}
+\label{tab:diffusivity_article}
+\scriptsize
+\begin{tabular}{lrrrr}
+\toprule
+Sample & Porosity [\%] & ${}^3$H & ${}^{36}$Cl & ${}^{125}$I \\
+& & \multicolumn{3}{c}{$\cdot10^{-13}\,\mathrm{m^2/s}$} \\
+\midrule
+V12\_K21\_4 & 0.66 & 2.7--3.0 & 0.4--0.6 & -- \\
+V12\_K21\_7 & 0.57 & 4.3--5.0 & -- & 1.6 \\
+V12\_P19\_2 & 1.20 & 9.2--9.6 & 3.4--4.4 & -- \\
+V12\_P19\_3 & 1.36 & 9.8--11.7 & -- & 2.4--3.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These data confirm that matrix diffusion in the intact rock is slow but not
+negligible on repository timescales. In the transport model, the rock matrix
+therefore acts primarily as a retarding domain, while the explicit fracture
+system governs the faster preferential pathways.
+
+\subsection{Determination of \gls{DFN} Parameters Through Bayesian Inversion}
+\label{sec:dfn_bayesian_inversion}
+
+This subsection is reserved for the inversion-based parametrization that links
+site observations to the stochastic fracture-network model. The active
+manuscript structure now keeps this topic separate from the transport-model
+results so that the extraction step can place the relevant source material here
+without mixing it into later result sections.
+
+\subsection{Transport Parameters of Saturated Pelletized Backfill}
+\label{sec:transport_pellets}
+
+This section provides transport parameters for radionuclide modelling in the
+\emph{fully hydrated, long-term} state of the pelletized backfill (time scale
+$\sim 10^3$~years). Transient resaturation and early-time preferential flow
+during hydration are \emph{not} considered. The key design state variable is
+the average emplaced dry density $\rho_d$; for the Czech concept we target
+\[
+\rho_d \approx 1.4~\mathrm{Mg/m^3}.
+\]
+Based on the FEBEX experiment results summarized in the bentonite support
+material, we estimate an uncertainty range of $\pm 0.1~\mathrm{Mg/m^3}$,
+corresponding to a standard deviation $\sigma_{\rho_d}=0.03~\mathrm{Mg/m^3}$.
+
+\paragraph{Porosity and pore families (steady, saturated fabric).}
+Using the measured solid density of BCV bentonite, $\rho_s=2.87~\mathrm{Mg/m^3}$,
+the total porosity is
+\[
+n = 1-\frac{\rho_d}{\rho_s}\approx 0.51~\pm 0.04
+\qquad \text{for}\qquad
+\rho_d=1.40~\pm 0.1~\mathrm{Mg/m^3}.
+\]
+
+\paragraph{Effective diffusion.}
+Following \cite{VanLoon2014_NTB1203}, we describe effective pore diffusion
+$D_{e}$ in the saturated backfill by an extended Archie-type relation,
+\[
+D_{e} = D_{w}\,\varepsilon^{m_1} + B\,\varepsilon^{m_2},
+\]
+where $D_w$ is the diffusivity in free water and $(m_1,m_2,B)$ are empirical
+parameters taken from the compacted-bentonite parameterisation in Tab.~28 of
+\cite{VanLoon2014_NTB1203}. For neutral tracers and most cations, we take
+$\varepsilon_i \approx n$ (total porosity). For anions, anion exclusion reduces
+the diffusion-accessible porosity. Using the porosity range stated above and
+the parameter envelope from \cite{VanLoon2014_NTB1203}, we retain the following
+representative log-diffusivity values at $25^\circ$C:
+\begin{align*}
+Y_{\mathrm{neu}} &= -9.4,& \sigma_{\mathrm{neu}}&=0.1,\\
+Y_{\mathrm{cat}} &= -9.8,& \sigma_{\mathrm{cat}}&=0.1,\\
+Y_{\mathrm{an}} &= -10.9,& \sigma_{\mathrm{an}}&=0.3,\\
+Y_{\mathrm{act}} &= -13.1,& \sigma_{\mathrm{act}}&=0.2.
+\end{align*}
+
+\paragraph{Advection and dispersion in the long-term saturated state.}
+Following first-order stochastic theory for macroscopic dispersion
+(\cite{Zech_Evidence_2023}), we express the longitudinal macrodispersivity as
+\begin{equation}
+    \label{eq:dispersivity}
+    \alpha_L = \sigma_{\ln K}^2\, I_h,
+\end{equation}
+where $\sigma_{\ln K}^2=\Var(\ln K)$ is the variance of the log-conductivity
+field and $I_h$ is the longitudinal integral scale. The integral scale is
+expected to be in the range
+\[
+I_h \approx 0.1\text{--}1~\mathrm{m},
+\]
+associated with hydration-related inhomogeneities. Using the fitted relation
+between dry density and conductivity, we obtain
+\[
+\sigma_{\log_{10}K} = 6 \sigma_{\rho_d} + 0.08 = 0.26,
+\]
+corresponding to $\sigma^2_{\ln K}\approx 0.36$, and therefore
+\[
+\alpha_L \approx 0.026\text{--}0.26~\mathrm{m}.
+\]
+
+These backfill parameters are extracted here because they directly enter the
+transport uncertainty model, while the broader bentonite discussion remains in
+the support material.

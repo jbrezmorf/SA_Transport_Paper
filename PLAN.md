@@ -21,8 +21,6 @@ Intended result:
   section files
 - the article structure should follow `AGENTS.md`:
   
-  AGENT: update the structure according to AGENTS.md
-  Resolved: replaced the rough outline with the current project structure.
   1. problem framing, research, and motivation
   2. near-field model
      - conceptual near-field transport model
@@ -48,11 +46,20 @@ Confirmed decisions:
   CORRECT.
   Resolved: treat this as confirmed for Step 1.
 
+AGNET:
+- introduce and use biblatex file article.bib, copy there references from all *.bib files. 
+- wrap lines to 90 chars approx.
+- missing content of the Section 2, there are several sections in the report to copy here
+- Section 3, the specified parameter vallues must be supported by particular references. 
+  In order to avoid edits put references after copied text. 
+- 3.1.2 and 3.1.3 add parameters for the bentonite backfill as well 
+  
+  
 ## Step 2: Extract report text into the article draft for review
 
 Goal:
 - populate the article structure with source text from the technical report
-- at this step, prefer transfer and rearrangement over rewriting
+- at this step, prefer transfer and rearrangement over rewriting AGENT: more explicit NO REWRITING AT ALL during this step.
 - user will review what should stay, be removed, or be expanded later
 
 Source files expected to be mined:
@@ -101,12 +108,17 @@ Working assumptions to confirm or modify:
 - "remove from the main document" means move out of the article body in
   `main.tex`, but keep the source files in the repository and reuse selected
   parts in appendix/support files as needed
+  AGENT: I see not "remove from main document in the instructions. So what is your question?
+  
 - "chapter 06" refers primarily to the material in
   `06_pore_pressure_experiment.tex`, `06_fractures.tex`,
   `06_TSX_heterogeneity.tex`, and the related transport discussion
+  CORRECT.
+  
 - "chapter 3" should be identified precisely before extraction starts, because
   the current active repository structure does not expose a file with that name
-
+  AGENT: That is covered by `param_review.tex`.
+  
 ## Step 3: Literature research for similar works
 
 Goal:
