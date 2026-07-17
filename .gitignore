@@ -20,3 +20,5 @@ _build
 /article_main.blg
 /.main-d.*.tex
 /*.synctex.gz
+/PP_figs/
+/graphics_tr/
