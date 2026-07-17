@@ -1,7 +1,157 @@
 \section{Sensitivity-Analysis Methodology}
 \label{sec:sensitivity_methodology}
+\jb{Reduce Sobol indices introduction, provide basic reserach of the 
+sensitivity analysis methods and works dealing with sensitivity analysis 
+involving random fracture netwroks.}
 
-This section will collect the methodological part of the paper, including the
-implementation of Sobol indices and the treatment of grouped uncertain inputs.
-At the Step~1 restructuring stage, it serves as a stable destination for the
-method text that will be extracted in Step~2.
+\subsection{Variance-based sensitivity analysis}
+Our quantity of interest (QoI) $Y$ is the safety indicator produced
+deterministically by the transport model. Hence, $Y=f(\mathbf{X})$ is a
+function of the uncertain model parameters $\mathbf{X}=(X_1,\dots,X_D)$.
+Assuming independence of the input parameters, the total variance of $Y$ can be
+decomposed into contributions caused by individual parameters and by their
+interactions.
+
+Importantly, variance-based sensitivity analysis does \emph{not} require any
+smoothness or continuity of $f$. This allows us to use a single parameter as a
+seed for a pseudo-random generator and, in this way, generate
+a (high-dimensional) vector of random inputs. We can then quantify the
+aggregate impact of uncertainty coming from this parameter group. Ultimately,
+such a vector may represent one realization of an entire random fracture
+network or a random field, i.e.\ a~representation of aleatory uncertainty.
+
+\paragraph{ANOVA variance decomposition.}
+Under the independence assumption, the Hoeffding--Sobol (functional ANOVA)
+decomposition holds in $L^2$:
+\begin{equation}
+f(\mathbf{X}) = f_0 + \sum_{i=1}^D f_i(X_i) + \sum_{1\le i<j\le D} f_{ij}(X_i,X_j) + \cdots + f_{1\cdots D}(X_1,\dots,X_D),
+\end{equation}
+with $f_0=\mathbb{E}[Y]$ and orthogonality conditions ensuring uniqueness, e.g.
+$\mathbb{E}[f_u(\mathbf{X}_u)\,|\,X_k]=0$ for any $k\in u$. Consequently, the
+variance decomposes as
+\begin{equation}
+\Var(Y) = \sum_{i=1}^D V_i + \sum_{1\le i<j\le D} V_{ij} + \cdots + V_{1\cdots D},
+\end{equation}
+where $V_u=\Var\!\big(f_u(\mathbf{X}_u)\big)$ is the partial variance
+contributed by the subset $u\subseteq\{1,\dots,D\}$.
+
+\paragraph{Sobol sensitivity indices: definitions and interpretation.}
+The \emph{first-order} (main-effect) Sobol index of $X_i$ measures the fraction
+of output variance explained by varying $X_i$ alone:
+\begin{equation}
+S_i = \frac{V_i}{\Var(Y)}.
+\end{equation}
+The \emph{second-order} index quantifies the additional variance due to
+interaction between $X_i$ and $X_j$ beyond their main effects:
+\begin{equation}
+S_{ij} = \frac{V_{ij}}{\Var(Y)}.
+\end{equation}
+The \emph{total-effect} index measures the overall contribution of $X_i$,
+including all its interactions with other inputs:
+\begin{equation}
+S_{T_i} = \frac{\sum_{u\ni i} V_u}{\Var(Y)},
+\end{equation}
+The exact indices satisfy inequalities:
+$0\le S_i\le S_{T_i}\le 1$, and
+\begin{equation}
+\sum_{i=1}^D S_i \le 1.
+\end{equation}
+In particular, $S_{T_i}-S_i$ is a useful diagnostic of how
+strongly $X_i$ interacts with other parameters. If $S_{T_i}$ is small, then
+$X_i$ can often be fixed (or simplified) with minimal impact on $\Var(Y)$.
+Higher-order indices, while theoretically possible, are usually not considered
+in practice because they are prohibitively computationally demanding.
+
+\paragraph{Estimation of Sobol indices and computational cost.}
+Sobol indices are typically estimated by Monte Carlo sampling. A common choice
+is the Saltelli sampling scheme \cite{Saltelli_Variance_2010} based on two
+independent sampling matrices $A,B\in\mathbb{R}^{N\times D}$ and $D$
+\textquote{mixed} matrices $A_B^{(i)}$ obtained by replacing the
+$i$-th column of $A$ with the $i$-th column of $B$. This leads to a structured
+set of model evaluations of size
+\begin{equation}
+N \times (2D+2).
+\end{equation}
+In practice, one often takes $N\gtrsim 10^3$ to obtain sufficient precision for
+the dominant indices, whereas substantially larger $N$ may be needed to
+estimate second-order indices reliably.
+
+In our computations, a \emph{single} full model evaluation takes about
+$30$ minutes. For $D=6$ parameters, the full Saltelli design therefore requires
+tens of thousands of model evaluations, which in our case translates into
+approximately one day on $400$ CPUs. This cost makes a naive extension to many
+more parameters infeasible.
+
+\paragraph{Towards reduced computational complexity.}
+To make the approach tractable, we group inputs into a small number of
+physically meaningful parameter groups and compare the variance
+contributions \emph{between groups} (grouped Sobol indices), rather than
+attempting to resolve all individual parameters at once.
+
+Unfortunately the standard surrogate-model acceleration techniques
+(e.g.\ polynomial chaos expansions) are not directly applicable
+due to highly non-smooth and convoluted nature of the model function $f(\vc X)$
+due to aleatory uncertainty encoded via pseudo-random seeds.
+
+To reduce the cost of sensitivity analysis by at least two orders of magnitude,
+we are developing variance-reduction and multi-fidelity strategies, in
+particular numerical homogenization ideas \cite{Spetlik_Convolutional_2026} and
+multi-level Monte Carlo (MLMC) estimators \cite{Giles2015}.
+
+\subsection{Stochastic model parameters}
+% The following summary is based on the data from technical reports of SÚRAO from several research projects studying \URFBII.
+
+\subsubsection{Types of parameter distributions}
+To describe the distributions of the independent model parameters $X_i$, we
+specify a probability distribution for each parameter. Where applicable, each
+distribution is characterized by
+(i) a \emph{location} parameter (e.g. a mean) that sets the typical magnitude
+of sampled values, and
+(ii) an \emph{uncertainty scale} parameter (e.g., a standard deviation) that
+quantifies sample variability.
+We use following four distribution types.
+
+\paragraph{Lognormal distribution}
+\jb{Introduction of GM and CIF is nonstandard and must be carefully explained.}
+Many transport-model parameters (e.g., hydraulic conductivity, diffusivity,
+\dots) are assumed to be lognormally distributed. For lognormal variables, the
+arithmetic mean and standard deviation are often not the most informative
+descriptors. Following previous work \cite{tz_design}, we therefore use the
+geometric mean \Gls{GM} as the location parameter, which has the same physical
+unit as the quantity $Q$:
+\[
+\gm(Q) = \exp\!\Big(\mathrm{mean}\big(\log(Q)\big)\Big).
+\]
+As an uncertainty descriptor, we use the confidence-interval factor \Gls{CIF}:
+\[
+\cif(Q) = \exp\!\Big(3 \cdot \std\big(\log(Q)\big)\Big).
+\]
+The \Gls{CIF} admits a convenient interpretation: the (approximate) $99~\%$
+confidence interval of $Q$ is
+\[
+\conf(Q,99\%) \approx \gm(Q)\,\Big[\cif^{-1}(Q),\, \cif(Q)\Big].
+\]
+
+\paragraph{Truncated normal distribution}
+Porosity is modeled using a truncated normal distribution with mean as the
+location parameter,  a truncation interval $(q_{\min}, q_{\max})$, and standard
+deviation as the scale parameter. All distribution parameters have the same
+unit as the modeled quantity.
+
+\paragraph{Bayesian posterior distribution}
+The parameters $(p_{30}, m, \alpha)$ of the DFN fracture families are not
+independent and are therefore sampled jointly. We draw these parameters as
+tuples from the empirical population of posterior samples obtained by Bayesian
+inversion. Hence, the distribution is represented by this finite set of
+samples.
+
+\paragraph{Seed}
+Aleatory uncertainties (fracture-network realization and computational mesh
+generation) are represented via the seed of a pseudorandom number generator
+driving the corresponding random processes. The seed is obtained by applying a
+hash function to a random value drawn from the uniform distribution on $(0,1)$.
+The hash is applied to decorrelate the seed from the raw sample value produced
+by the same pseudorandom generator, ensuring reproducible yet effectively
+independent realizations.
+
+%JB: continue here

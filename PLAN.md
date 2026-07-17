@@ -1,7 +1,7 @@
 # Current goal planning file
 
 ## Step 1: Restructure the article skeleton
-
+DONE.
 Goal:
 - make the top-level article in `main.tex` follow the paper structure from
   `AGENTS.md`
@@ -56,6 +56,7 @@ AGNET:
   
   
 ## Step 2: Extract report text into the article draft for review
+DONE.
 
 Goal:
 - populate the article structure with source text from the technical report
@@ -118,6 +119,8 @@ Working assumptions to confirm or modify:
 - "chapter 3" should be identified precisely before extraction starts, because
   the current active repository structure does not expose a file with that name
   AGENT: That is covered by `param_review.tex`.
+
+Step 2 DONE.
   
 ## Step 3: Literature research for similar works
 

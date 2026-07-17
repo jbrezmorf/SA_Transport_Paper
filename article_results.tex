@@ -1,7 +1,352 @@
 \section{Transport Sensitivity Results and Discussion}
 \label{sec:transport_results}
 
-This section is reserved for the main transport sensitivity results,
-interpretation, and discussion. The active manuscript now keeps these outcomes
-separate from model setup and parametrization so that the source material can
-be reorganized into a paper-oriented result section during Step~2.
+\subsection{Results}
+
+\paragraph{Dispersion.}
+The average velocities in the rock matrix and backfill are of the same order,
+$\sim 10^{-14}$, which corresponds to dispersivities of about
+$5\cdot 10^{-15}$ (rock matrix) and $8\cdot 10^{-16}$ (backfill). In the rock
+matrix, dispersion is roughly two orders of magnitude smaller than the
+effective diffusivity.
+Given that both parameters are uncertain, a non-negligible contribution from
+dispersion cannot be fully ruled out. Locally higher velocities may occur, in
+particular along \emph{matrix bridges} (short matrix connections between
+fractures).
+In the backfill, by contrast, dispersion is about four orders of magnitude
+smaller than diffusivity, and large spatial variability in velocity or
+parameters is unlikely; its impact is therefore negligible.
+
+\paragraph{Advection vs. diffusion.}
+For an element length scale $L \approx 0.5\,\mathrm{m}$, the local Peclet
+number is
+\[
+\mathrm{Pe}=\frac{vL}{D_{\mathrm{eff}}}\approx \frac{(10^{-14})(0.5)}{5\cdot 10^{-13}} \approx 10^{-2}.
+\]
+This implies strongly diffusion-dominated transport ($\mathrm{Pe}\ll 1$) on the
+element scale in the rock matrix and, even more so, in the backfill. Locally
+higher velocities may occur (up to $10^{-11}$), in particular along matrix
+bridges and in major fractures, where advection may become more relevant.
+
+\paragraph{Sensitivity analyses.}
+We perform four global sensitivity analyses that differ in how the uncertain
+inputs are represented. Uncertainties are grouped by the part of the system
+they affect (bulk rock, backfill, EDZ, and the DFN when present). In addition
+to physical parameters, we treat the DFN realization (via a random DFN seed)
+and the computational mesh (via a random meshing seed) as aleatory sources of
+variability.
+
+\emph{Case 0} is the reference setup and includes the DFN.
+\emph{Case 1} is a DFN-free control case (transport in matrix/backfill only),
+providing a conservative baseline.
+\emph{Case 2} follows \emph{Case 0} but refines the DFN-related grouping by
+separating geometric (population) and transport (transmissivity) parameters.
+\emph{Case 3} follows \emph{Case 0} but assumes higher bulk-rock conductivity
+and dispersivity in order to represent the possible effect of unresolved
+small-scale fractures.
+
+Because DFN realizations randomize the geometry, some runs fail during
+fracture-induced volume fragmentation, mesh generation, or the algebraic solve
+(slow convergence/divergence). Table~\ref{tab:sample_counts} reports the number
+of successful Saltelli samples and the corresponding wall time on 180 CPUs.
+
+\begin{table}[ht]
+    \caption{Sample count of computed cases.}
+    \label{tab:sample_counts}
+    \centering
+    \footnotesize
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{crcrr}
+    \toprule
+    Case & \makecell[c]{Saltelli\\ samples} & \makecell[c]{Parameter\\ groups} & \makecell[c]{Model\\ Evaluations} & Time [h:m] \\
+    \midrule
+    0 & 1497 / 2048 & 6 & 27132 / 28672 & 60:01\\
+    1 & 2038 / 2048 & 4 & 20470 / 20480 & 10:42\\
+    2 & 1495 / 2048 & 6 & 27123 / 28672 & 70:10\\
+    3 & 755 / 1024 & 6 & 13590 / 14336 & 47:10\\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+%%%%%% Case 00
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\subsubsection{Case 0}
+The reference case comprises six parameter groups representing the main sources
+of uncertainty:
+\begin{enumerate}
+    \item bulk rock: $k_r$, $\theta_r$, $d_r$, $\alpha_{Lr}$
+    \item backfill: $k_b$, $\theta_b$, $d_b$, $\alpha_{Lb}$
+    \item EDZ: $\tilde k_e$, $\tilde \theta_e$, $\tilde w_e$
+    \item DFN parameters: $(p_{30}, \alpha)^{(i)}$, $a^{(i)}$
+    \item DFN realization (seed)
+    \item meshing seed
+\end{enumerate}
+
+\figref{fig:case_00_conc} summarizes the time evolution of the \gls{QoI}
+$I(t)$ (defined in Section~\ref{sec:QoI}). The top panel shows selected
+quantiles together with an estimated probability density function (PDF). The
+bottom panel shows the 20 lowest (red) and 20 highest (blue) trajectories,
+overlaid with a colormap representation of the PDF for a tightened range of the
+log concentrations. The breakthrough time is on the order of $2\,\munit{ky}$,
+but varies widely—from about $0.11\,\munit{ky}$ to several $100\,\munit{ky}$.
+The peak concentration reaches approximately $\num{1e-6}$. At
+$t=10\,\munit{ky}$, the concentration spans roughly ten orders of magnitude
+across samples, whereas by the final time ($640\,\munit{ky}$) the spread
+narrows to about two orders of magnitude. A similar level of variability is
+observed for the maximum concentration over time.
+
+The estimated Sobol indices produced by the sensitivity analysis are displayed
+in \figref{fig:case_00_sobol}.
+Reading the figure from right to left, the total-effect indices (ST) for the
+aggregated quantity $\max I(t)$ identify two dominant sources of uncertainty:
+the \gls{DFN} parameter group and the particular \gls{DFN} realization.
+A smaller additional contribution is associated with meshing; however, its
+first-order effect is negligible, its S2 estimates have large error bars, and
+its apparent importance decreases as the number of samples increases.
+
+For the aggregated quantity $\max I(t)$, the only clearly significant
+first-order contribution is the \gls{DFN} seed, while the S1 index of the
+\gls{DFN} parameter group is the second largest but only marginally
+significant. The corresponding second-order indices remain too uncertain for
+firm conclusions, although they suggest a possible interaction between the
+bulk-rock, bentonite, and \gls{EDZ} material groups.
+
+The time-dependent Sobol indices indicate a marked change after about
+$100\,\munit{ky}$, when the \gls{QoI} in the majority of realizations has
+already approached its late-time tail regime. At late times, the set of indices
+selected as significant for the aggregated QoI drops toward zero and may even
+attain negative estimates due to sampling error. This effect is most likely
+caused by sampling error, since it does not appear in Case~2, which has an
+almost identical parameterization. The time-resolved plot further suggests
+interaction of the \gls{DFN} seed with all three material groups, whereas the
+\gls{DFN} parameter group does not show a similarly clear interaction with the
+backfill material group within the present estimation accuracy.
+
+% Decreasing the uncertainty in DFN parameters is the only option. However, fitting DFN parameters to the larger datasets of outcrops may be counterproductive, better analysis of the outcrop dataset must be performed to decide whether the uncertainty is primarily epistemic, space variability or truly aleatory.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics_tr/results/case_00a_hist_conc_over_time.pdf}
+    % workdir_41d_test_ot_2048
+    \caption{\textbf{Case 0}. Time-dependent density function of \gls{QoI} up
+    to $\num{640e3}$ years. PDF and selected quantiles  (top), 20 smallest
+    (red) and 20 largest (blue) samples, and a colormap representation of the
+    density function.}
+    \label{fig:case_00_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics_tr/results/case_00a_sobol_agg_over_time.pdf}
+    % workdir_41d_test_ot_2048
+    \caption{\textbf{Case 0}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right). Plain colors mark S1 indices, while stripes indicate
+    S2 indices for pairs of parameter interactions. The S1 and S2 indices are
+    stacked by rank, whereas the total-effect indices ST follow the parameter
+    order. Error bars indicate estimated $90\%$ confidence intervals. Note that
+    the estimated sums of Sobol indices may exceed the theoretical limit of 1
+    due to sampling error.
+    }\label{fig:case_00_sobol}
+\end{figure}
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]
+%     {graphics_tr/results/case_00_sobol_agg_table.pdf}
+%     % workdir_41d_test_ot_2048
+%     \caption{\pe{\textbf{Case 1}. Table of Sobol indices.}}\label{fig:var_01_sobol_table}
+% \end{figure}
+
+%%%%% Case 01
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\subsubsection{Case 1}
+In this case, the DFN is omitted and transport proceeds only through the rock
+matrix and the backfill, providing the most conservative scenario. As shown in
+\figref{fig:case_1_conc}, the \gls{QoI} increases only slowly. The breakthrough
+time is approximately $100\,\munit{ky}$ and its variability is small compared
+with the DFN cases. Consistent with the slower contaminant migration, the
+variance of the \gls{QoI} also decreases more slowly over time.
+
+The sensitivity analysis includes the following parameter groups:
+\begin{enumerate}
+    \item bulk rock: $k_r$, $\theta_r$, $d_r$, $\alpha_{Lr}$
+    \item backfill: $k_b$, $\theta_b$, $d_b$, $\alpha_{Lb}$
+    \item EDZ: $\tilde k_e$, $\tilde \theta_e$, $\tilde w_e$
+    \item meshing seed
+\end{enumerate}
+
+The first-order Sobol indices (S1) are close to the corresponding total-effect
+indices (ST), indicating weak interaction effects, see
+\figref{fig:case_1_sobol}. The dominant contributions to output variability
+come from the bulk-rock and EDZ parameter groups, while the influence of the
+backfill parameters declines in time and its total effect is least significant.
+The contribution of numerical uncertainty due to meshing, as well as the
+remaining variance attributable to interactions, is negligible.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics_tr/results/case_1a_hist_conc_over_time.pdf}
+    % workdir_40b_test_ot_2048
+    \caption{\textbf{Case 1}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_1_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics_tr/results/case_1a_sobol_agg_over_time.pdf}
+    % workdir_40b_test_ot_2048
+    \caption{\textbf{Case 1}. Sobol indices for $I(t)$ (left) and for
+    $I=max I(t)$ (right).}\label{fig:case_1_sobol}
+\end{figure}
+% \begin{figure}[!htb]
+%      \centering
+%      \includegraphics[width=0.9\textwidth]
+%      {graphics_tr/results/case_1a_sobol_agg_table.pdf}
+%      % workdir_40b_test_ot_2048
+%      \caption{\textbf{Case 1}. Table of Sobol indices.}\label{fig:var_00_sobol_table}
+% \end{figure}
+
+%%%%%% Case 02b
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\subsubsection{Case 2}
+We consider a variant of \emph{Case 0} with a refined treatment of DFN
+uncertainty. The DFN parameters are split into (i) geometric descriptors of the
+network (\emph{DFN population}) and (ii) fracture transmissivity parameters
+(\emph{DFN transport}). To reduce computational costs, the bulk-rock and
+backfill parameters are merged into a single group denoted
+\emph{material parameters}.
+
+The sensitivity analysis includes the following parameter groups:
+\begin{enumerate}
+    \item material parameters (\verb|mat_BB|): $k_r$, $\theta_r$, $d_r$,
+    $\alpha_{Lr}$, $k_b$, $\theta_b$, $d_b$, $\alpha_{Lb}$
+    \item EDZ: $\tilde k_e$, $\tilde \theta_e$, $\tilde w_e$
+    \item DFN population: $(p_{30}, \alpha)^{(i)}$
+    \item DFN transport: $a^{(i)}$
+    \item DFN realization (seed)
+    \item meshing seed
+\end{enumerate}
+
+The time evolution in \figref{fig:case_02_conc} closely follows Case~0.
+Figure~\ref{fig:case_02_sobol} is also qualitatively similar, but with several
+clear differences.
+The estimated total-effect indices remain close to those of Case~0; however,
+the separated group of fracture-transport parameters now contributes about
+$5~\%$ of the output variability.
+The output variance is again driven primarily by interaction effects between the
+DFN population parameters and the particular DFN realization.
+The contribution of numerical uncertainty due to meshing is more pronounced,
+and the interaction between the DFN realization seed and the meshing seed is
+significant.
+Within the DFN parameterization, the geometric group (\emph{DFN population})
+dominates, whereas the transmissivity group (\emph{DFN transport}) contributes
+only a small share of the variance. However, the former group is based on
+Bayesian inversion with a comparatively well-characterized uncertainty
+representation, while the latter uses a rough estimate derived from Forsmark
+site case studies, so its uncertainty may be underestimated.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics_tr/results/case_02_hist_conc_over_time.pdf}
+    % workdir_42c_test_ot_2048
+    \caption{\textbf{Case 2}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_02_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics_tr/results/case_02_sobol_agg_over_time.pdf}
+    % workdir_42c_test_ot_2048
+    \caption{\textbf{Case 2}. Sobol indices for $I(t)$ (left) and for
+    $I=max I(t)$ (right).}\label{fig:case_02_sobol}
+\end{figure}
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]
+%     {graphics_tr/results/var_02b_sobol_agg_table.pdf}
+%     % workdir_42c_test_ot_2048
+%     \caption{\pe{\textbf{Case 2}. Table of Sobol indices.}}\label{fig:case_02_sobol_table}
+% \end{figure}
+
+% {\bf Discussion}
+% The estimated Sobol indices suggests strong sensitivity to the interaction between DFN parameters and particular network sample, however the first order (S1) indices are small.
+
+% \begin{itemize}
+
+%     \item The estimation error of the interaction Sobol indices is high however and even the provided confidence intervals are
+%     rather qualitative. Need a sample size at least $N=4000$ (doable)
+%     or even $N=16000$ to get any relevant information about other interactions.
+%     \item The numerical uncertainty is indicated by uncertainty due to computational mesh, but could be higher if we account for the effect of time discretization. It is small compared to the main interaction, but still at least comparable to the other uncertainties.  In order to reduce  this error, we should
+%     apply subsampling over different meshes and use average to
+%     stabilize the model output. The similar technique could be used to artificially remove effect of other uncertainties to obtain
+%     comparison of the parameters of smaller effect.
+% \end{itemize}
+
+%%%%%% Case 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\subsubsection{Case 3}
+
+A major limitation of the used transport model is the absence of an explicit
+representation of small-scale fractures in the size range
+$0.1$--$1\,\munit{m}$.
+Our \gls{DFM} approach is based on numerical homogenization of these fractures
+and their representation through an anisotropic, heterogeneous conductivity
+field using a convolutional neural network
+(\cite{Spetlik_Convolutional_2026}). However, the integration of the
+homogenization surrogate models is not yet available for problems involving
+complex internal geometry or material structure.
+
+The hydraulic conductivities used in Case~0 could be underestimated due to the
+missing small-scale fractures. For this reason, the present case
+(derived from Case~0) assumes elevated hydraulic conductivity, with
+$GM(k_r)=\num{1e-11}$ and $CIF(k_r)=100$. This range covers values from
+$\num{1e-13}$ measured on laboratory samples up to $\num{1e-9}$ observed in
+situ during \gls{WPT}s. Accordingly, the dispersivity, which depends on the
+variance of hydraulic conductivity, was adjusted to $GM(\alpha_L)=3$ and
+$CIF(\alpha_L)=3$.
+
+The results are shown in \figref{fig:case_03_conc} and
+\figref{fig:case_03_sobol}. In contrast to Case~0, the breakthrough times are
+shorter, allowing the simulations to cover the early phase of the concentration
+decline. The concentration variability is also substantially higher.
+As expected, the influence of DFN-related parameters, including the DFN
+realization and numerical uncertainty, remains significant. However, the
+reduction in the Sobol indices of the remaining material-parameter groups is
+somewhat counterintuitive, and among them only the bulk-rock material group
+remains clearly significant.
+
+A plausible explanation is that once the background rock conductivity and
+dispersivity are increased, transport becomes less controlled by contrasts among
+the engineered-barrier domains and more controlled by the connectivity of the
+surrounding rock and the realized fracture geometry. In that regime, the
+backfill and EDZ parameters mainly perturb already efficient pathways, whereas
+the bulk-rock parameters still affect the overall residence time in the matrix
+and the strength of matrix-bridge transport between fractures.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics_tr/results/case_00b_hist_conc_over_time.pdf}
+    % workdir_43c_test_ot_2048
+    \caption{\textbf{Case 3}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_03_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics_tr/results/case_00b_sobol_agg_over_time.pdf}
+    % workdir_43c_test_ot_2048
+    \caption{\textbf{Case 3}. Sobol indices for $I(t)$ (left) and for
+    $I=max I(t)$ (right).}\label{fig:case_03_sobol}
+\end{figure}
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]
+%     {graphics_tr/results/case_00b_sobol_agg_table.pdf}
+%     % workdir_43c_test_ot_2048
+%     \caption{\pe{\textbf{Case 3}. Table of Sobol indices.}}\label{fig:case_03_sobol_table}
+% \end{figure}
+
+\FloatBarrier

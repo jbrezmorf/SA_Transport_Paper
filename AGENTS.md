@@ -48,6 +48,8 @@
   6. conclusions
 
 ## Project specific instructions
+- Treat comment macros \jb, \js, \pe, .. as human comments.
+
 AGNET: following are not project specific instructions, but plan instructions! 
 Make an instruction here to do not mix these anymore.
 

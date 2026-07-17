@@ -1,0 +1,68 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+We have constructed a near-field transport model for a single leaking
+\gls{WDP} in an access-tunnel segment, explicitly resolving the
+bentonite/backfill and EDZ domains. Flow and transport in the surrounding rock
+are represented by a mixed-dimensional \gls{DFM} formulation with a
+stochastically generated \gls{DFN}. A complementary hydro-mechanical analysis
+was used to estimate permeability changes induced  by excavation and
+\gls{DGR} closure. It was used to define uncertainty ranges for EDZ parameters.
+These model components were combined with a stochastic description of key
+inputs, enabling a variance-based sensitivity analysis using Sobol indices for
+parameter groups.
+
+The transport model is diffusion-dominated for the considered parameter ranges.
+Locally, advection can become more pronounced along major fractures and along
+short ``matrix bridges'' connecting fractures, but sustained
+advection-dominated behaviour is unlikely even under substantially higher
+velocities because increasing velocities also increase hydrodynamic dispersion.
+
+The DFN has a decisive effect on breakthrough. In the nominal fractured
+scenario (Case~0), the characteristic breakthrough time is on the order of
+$2\,\munit{ky}$, but with very large variability, ranging from about
+$0.11\,\munit{ky}$ to several $100\,\munit{ky}$. In contrast, the DFN-free
+control case (Case~1) delays breakthrough to roughly $100\,\munit{ky}$ and
+exhibits much smaller variability. Consistent with progressive mixing and the
+diminishing influence of early-time pathways, the variance of the time-dependent
+\gls{QoI} $I(t)$ decreases with time; we therefore also interpret results using
+the aggregated scalar quantity $\max I(t)$, which captures the peak
+concentration over the full simulation horizon.
+
+The sensitivity analysis shows that, once fractures are present, the dominant
+contributions to the output variance come from the realized fracture geometry
+and the DFN parameterization. In Case~0, the DFN realization and DFN parameter
+group dominate the total-effect indices, while first-order effects remain small
+and the main influence arises through interactions. The strongest and most
+robust interaction is between the DFN realization and the DFN parameter group,
+implying that variance reduction requires improving DFN characterization;
+however, simply fitting DFN parameters to larger outcrop datasets may be
+counterproductive unless the nature of the uncertainty is clarified
+(epistemic vs.\ spatial variability vs.\ aleatory). Numerical uncertainty due
+to meshing is smaller, but not entirely negligible.
+
+The DFN-free control analysis in Case~1 shows a qualitatively different
+sensitivity pattern: without fractures, interaction effects and meshing
+uncertainty are weak, and the dominant contributions come from the bulk-rock
+and EDZ parameter groups, while the backfill contribution is the least
+significant. Separating DFN uncertainty into geometric descriptors
+(\emph{DFN population}) and transmissivity-related parameters
+(\emph{DFN transport}) in Case~2 shows that geometry remains more influential
+than fracture transmissivity, but also reveals a small visible contribution of
+the DFN transport group, on the order of $5~\%$ of the variance. Since the
+uncertainty assigned to fracture transmissivity is based only on a rough
+estimate, its role may still be underestimated.
+
+Case~3 explores the possibility that the background rock conductivity in
+Case~0 is underestimated because unresolved small-scale fractures are not
+represented explicitly. Under elevated bulk-rock conductivity and dispersivity,
+the concentration variability increases and the dominant control shifts further
+toward surrounding-rock connectivity and realized fracture geometry. In this
+regime, the backfill and EDZ parameters mainly perturb already efficient
+pathways, whereas among the material groups only the bulk-rock parameters
+remain clearly significant.
+
+Finally, while the same workflow is transferable to regional-scale transport
+analyses, the dominant sensitivities may change substantially, in particular
+due to the expected much larger uncertainty and heterogeneity of rock-matrix
+properties at regional scales.
