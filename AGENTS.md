@@ -24,13 +24,13 @@
   glossary source, and chapter assembly file.
 - Current `main.tex` inputs and bibliography:
   - `article_intro.tex`: paper introduction and motivation
-  - `article_model.tex`: near-field model section skeleton
-  - `article_parametrization.tex`: model parametrization and transport context
-  - `article_methods.tex`: sensitivity-analysis methodology section skeleton
-  - `article_results.tex`: transport sensitivity results section skeleton
-  - `article_conclusions.tex`: conclusions section skeleton
+  - `article_model.tex`: near-field model
+  - `article_parametrization.tex`: model parametrization
+  - `article_methods.tex`: sensitivity-analysis methodology
+  - `article_results.tex`: transport sensitivity results and discussion
+  - `article_conclusions.tex`: conclusions
   - `article_support_appendix.tex`: supporting appendix material
-  - `report.bib`: active BibLaTeX database loaded by `\addbibresource`
+  - `article.bib`: active BibLaTeX database loaded by `\addbibresource`
   
 - The target manuscript should read as a coherent paper on near-field
   transport sensitivity analysis rather than as a lightly edited report.
@@ -49,30 +49,20 @@
 
 ## Project specific instructions
 - Treat comment macros \jb, \js, \pe, .. as human comments.
-
-AGNET: following are not project specific instructions, but plan instructions! 
-Make an instruction here to do not mix these anymore.
-
+- Keep durable repository and manuscript rules in `AGENTS.md`.
+- Keep transient execution steps, review checklists, and change logs in
+  `PLAN.md`; do not mix them into `AGENTS.md`.
 - Keep the current plain article setup in `main.tex`; do not restore material
   from `report_files/template.tex`.
-- Treat the Step 1 restructuring as a permanent change in the active
-  manuscript, not as temporary staging.
 - Introduce and use `article.bib` for the article build. Copy relevant entries
   there from the report-related `*.bib` files when bibliography restructuring
   is performed.
 - Wrap edited prose lines to about 90 characters where practical.
-- Section 2 must be populated from the report material; several report sections
-  are expected to be copied there during extraction.
 - In Section 3, stated parameter values must be supported by specific
   references. When avoiding rewrites, place the references after the copied
   text.
 - In subsections corresponding to 3.1.2 and 3.1.3, add bentonite backfill
   parameters as well.
-- For Step 2 extraction, do not rewrite the source text at all. Copy, move,
-  and reorder only.
-- During extraction, traverse from `main.tex` through the active `\input`
-  structure instead of patching isolated files without checking how they are
-  referenced.
 - Keep only text that supports the transport sensitivity analysis narrative.
 - `param_review.tex` is the repository mapping for "chapter 3".
 
