@@ -30,8 +30,8 @@ bridges and in major fractures, where advection may become more relevant.
 
 \paragraph{Sensitivity analyses.}
 We perform four global sensitivity analyses that differ in how the uncertain
-inputs are represented. Uncertainties are grouped by the part of the system
-they affect (bulk rock, backfill, EDZ, and the DFN when present). In addition
+inputs are represented. Uncertainties are grouped by the volumetric part of the system
+they affect (bulk rock, backfill, EDZ, and the DFN if present). In addition
 to physical parameters, we treat the DFN realization (via a random DFN seed)
 and the computational mesh (via a random meshing seed) as aleatory sources of
 variability.
@@ -41,7 +41,7 @@ variability.
 providing a conservative baseline.
 \emph{Case 2} follows \emph{Case 0} but refines the DFN-related grouping by
 separating geometric (population) and transport (transmissivity) parameters.
-\emph{Case 3} follows \emph{Case 0} but assumes higher bulk-rock conductivity
+\emph{Case 3} follows \emph{Case 0} but assumes significantly higher bulk-rock conductivity
 and dispersivity in order to represent the possible effect of unresolved
 small-scale fractures.
 
@@ -51,7 +51,7 @@ fracture-induced volume fragmentation, mesh generation, or the algebraic solve
 of successful Saltelli samples and the corresponding wall time on 180 CPUs.
 
 \begin{table}[ht]
-    \caption{Sample count of computed cases.}
+    \caption{\old Sample count of computed cases.}
     \label{tab:sample_counts}
     \centering
     \footnotesize
@@ -64,6 +64,24 @@ of successful Saltelli samples and the corresponding wall time on 180 CPUs.
     1 & 2038 / 2048 & 4 & 20470 / 20480 & 10:42\\
     2 & 1495 / 2048 & 6 & 27123 / 28672 & 70:10\\
     3 & 755 / 1024 & 6 & 13590 / 14336 & 47:10\\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+    \caption{\pe{Valid sample counts of computed cases (percentage of total counts). Every case goal was 32768 independent MC samples. Each case was split into 64 jobs, each job set with walltime 24 h over 10 nodes with 18 cpus --- took approx. 2 weeks on Metacentrum all jobs to finish.}}
+    \label{tab:sample_counts}
+    \centering
+    \footnotesize
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{crcrr}
+    \toprule
+    Case & \makecell[c]{Valid \\ samples} & \makecell[c]{Parameter\\ groups} & \makecell[c]{Valid model\\ evaluations}\\
+    \midrule
+    0 & 23779 / \;72.6 \% & 6 & 434996 / \;94.8 \% \\
+    1 & 32757 / \;99.9 \% & 4 & 327665 / \;99.9 \% \\
+    2 & 23466 / \;71.6 \% & 6 & 434780 / \;94.7 \% \\
+    3 & 23749 / \;72.5 \% & 6 & 434962 / \;94.8 \% \\
     \bottomrule
     \end{tabular}
 \end{table}
@@ -127,9 +145,9 @@ backfill material group within the present estimation accuracy.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_00a_hist_conc_over_time.pdf}
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results_old/case_00a_hist_conc_over_time.pdf}
     % workdir_41d_test_ot_2048
-    \caption{\textbf{Case 0}. Time-dependent density function of \gls{QoI} up
+    \caption{\old \textbf{Case 0}. Time-dependent density function of \gls{QoI} up
     to $\num{640e3}$ years. PDF and selected quantiles  (top), 20 smallest
     (red) and 20 largest (blue) samples, and a colormap representation of the
     density function.}
@@ -138,9 +156,9 @@ backfill material group within the present estimation accuracy.
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]
-    {graphics/tr/results/case_00a_sobol_agg_over_time.pdf}
+    {graphics/tr/results_old/case_00a_sobol_agg_over_time.pdf}
     % workdir_41d_test_ot_2048
-    \caption{\textbf{Case 0}. Sobol indices for $I(t)$ (left) and for
+    \caption{\old \textbf{Case 0}. Sobol indices for $I(t)$ (left) and for
     $I=\max I(t)$ (right). Plain colors mark S1 indices, while stripes indicate
     S2 indices for pairs of parameter interactions. The S1 and S2 indices are
     stacked by rank, whereas the total-effect indices ST follow the parameter
@@ -156,6 +174,33 @@ backfill material group within the present estimation accuracy.
 %     % workdir_41d_test_ot_2048
 %     \caption{\pe{\textbf{Case 1}. Table of Sobol indices.}}\label{fig:var_01_sobol_table}
 % \end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_0_hist_conc_over_time.pdf}
+    % workdir_41d_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_0_32k
+    \caption{\textbf{Case 0}. Time-dependent density function of \gls{QoI} up
+    to $\num{640e3}$ years. PDF and selected quantiles  (top), 20 smallest
+    (red) and 20 largest (blue) samples, and a colormap representation of the
+    density function.}
+    \label{fig:case_00_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics/tr/results/case_0_sobol_agg_over_time.pdf}
+    % workdir_41d_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_0_32k
+    \caption{\textbf{Case 0}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right). Plain colors mark S1 indices, while stripes indicate
+    S2 indices for pairs of parameter interactions. The S1 and S2 indices are
+    stacked by rank, whereas the total-effect indices ST follow the parameter
+    order. Error bars indicate estimated $90\%$ confidence intervals. Note that
+    the estimated sums of Sobol indices may exceed the theoretical limit of 1
+    due to sampling error.
+    }\label{fig:case_00_sobol}
+\end{figure}
 
 %%%%% Case 01
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -184,20 +229,21 @@ backfill parameters declines in time and its total effect is least significant.
 The contribution of numerical uncertainty due to meshing, as well as the
 remaining variance attributable to interactions, is negligible.
 
+
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_1a_hist_conc_over_time.pdf}
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results_old/case_1a_hist_conc_over_time.pdf}
     % workdir_40b_test_ot_2048
-    \caption{\textbf{Case 1}. Concentration indicator value over time up to
+    \caption{\old \textbf{Case 1}. Concentration indicator value over time up to
     $10^6$ years.}\label{fig:case_1_conc}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]
-    {graphics/tr/results/case_1a_sobol_agg_over_time.pdf}
+    {graphics/tr/results_old/case_1a_sobol_agg_over_time.pdf}
     % workdir_40b_test_ot_2048
-    \caption{\textbf{Case 1}. Sobol indices for $I(t)$ (left) and for
-    $I=max I(t)$ (right).}\label{fig:case_1_sobol}
+    \caption{\old \textbf{Case 1}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right).}\label{fig:case_1_sobol}
 \end{figure}
 % \begin{figure}[!htb]
 %      \centering
@@ -206,6 +252,24 @@ remaining variance attributable to interactions, is negligible.
 %      % workdir_40b_test_ot_2048
 %      \caption{\textbf{Case 1}. Table of Sobol indices.}\label{fig:var_00_sobol_table}
 % \end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_1_hist_conc_over_time.pdf}
+    % workdir_40b_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_1_32k
+    \caption{\textbf{Case 1}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_1_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics/tr/results/case_1_sobol_agg_over_time.pdf}
+    % workdir_40b_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_1_32k
+    \caption{\textbf{Case 1}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right).}\label{fig:case_1_sobol}
+\end{figure}
 
 %%%%%% Case 02b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,18 +313,18 @@ site case studies, so its uncertainty may be underestimated.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_02_hist_conc_over_time.pdf}
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results_old/case_02_hist_conc_over_time.pdf}
     % workdir_42c_test_ot_2048
-    \caption{\textbf{Case 2}. Concentration indicator value over time up to
+    \caption{\old \textbf{Case 2}. Concentration indicator value over time up to
     $10^6$ years.}\label{fig:case_02_conc}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]
-    {graphics/tr/results/case_02_sobol_agg_over_time.pdf}
+    {graphics/tr/results_old/case_02_sobol_agg_over_time.pdf}
     % workdir_42c_test_ot_2048
-    \caption{\textbf{Case 2}. Sobol indices for $I(t)$ (left) and for
-    $I=max I(t)$ (right).}\label{fig:case_02_sobol}
+    \caption{\old \textbf{Case 2}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right).}\label{fig:case_02_sobol}
 \end{figure}
 % \begin{figure}[!htb]
 %     \centering
@@ -269,6 +333,24 @@ site case studies, so its uncertainty may be underestimated.
 %     % workdir_42c_test_ot_2048
 %     \caption{\pe{\textbf{Case 2}. Table of Sobol indices.}}\label{fig:case_02_sobol_table}
 % \end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_2_hist_conc_over_time.pdf}
+    % workdir_42c_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_2_32k
+    \caption{\textbf{Case 2}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_02_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics/tr/results/case_2_sobol_agg_over_time.pdf}
+    % workdir_42c_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_2_32k
+    \caption{\textbf{Case 2}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right).}\label{fig:case_02_sobol}
+\end{figure}
 
 % {\bf Discussion}
 % The estimated Sobol indices suggests strong sensitivity to the interaction between DFN parameters and particular network sample, however the first order (S1) indices are small.
@@ -328,18 +410,18 @@ and the strength of matrix-bridge transport between fractures.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_00b_hist_conc_over_time.pdf}
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results_old/case_00b_hist_conc_over_time.pdf}
     % workdir_43c_test_ot_2048
-    \caption{\textbf{Case 3}. Concentration indicator value over time up to
+    \caption{\old \textbf{Case 3}. Concentration indicator value over time up to
     $10^6$ years.}\label{fig:case_03_conc}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]
-    {graphics/tr/results/case_00b_sobol_agg_over_time.pdf}
+    {graphics/tr/results_old/case_00b_sobol_agg_over_time.pdf}
     % workdir_43c_test_ot_2048
-    \caption{\textbf{Case 3}. Sobol indices for $I(t)$ (left) and for
-    $I=max I(t)$ (right).}\label{fig:case_03_sobol}
+    \caption{\old \textbf{Case 3}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right).}\label{fig:case_03_sobol}
 \end{figure}
 % \begin{figure}[!htb]
 %     \centering
@@ -348,5 +430,23 @@ and the strength of matrix-bridge transport between fractures.
 %     % workdir_43c_test_ot_2048
 %     \caption{\pe{\textbf{Case 3}. Table of Sobol indices.}}\label{fig:case_03_sobol_table}
 % \end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphics/tr/results/case_3_hist_conc_over_time.pdf}
+    % workdir_43c_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_3_32k
+    \caption{\textbf{Case 3}. Concentration indicator value over time up to
+    $10^6$ years.}\label{fig:case_03_conc}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {graphics/tr/results/case_3_sobol_agg_over_time.pdf}
+    % workdir_43c_test_ot_2048
+    % charon_storage/flow123d/chodby_trans/CASE_3_32k
+    \caption{\textbf{Case 3}. Sobol indices for $I(t)$ (left) and for
+    $I=\max I(t)$ (right). \pe{Tady si neumim vysvetlit, v casove rade vyrazny vliv matbulk, ktery se neprojevi v tech totalnich indexech.}}\label{fig:case_03_sobol}
+\end{figure}
 
 \FloatBarrier
